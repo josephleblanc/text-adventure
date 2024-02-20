@@ -19,7 +19,8 @@ func randIntn(min, max int) int {
 }
 
 // Outputs a string rune-by-rune with a delay,
-// stops delay if the user enters an escape character, currently
+// stops delay if the user enters an escape character.
+// Currently works, but is commented out while I try another method below.
 //
 //	space
 //	return
@@ -72,34 +73,54 @@ func printSlow(str string) {
 	for i, c := range str {
 		os.Stdin.SetReadDeadline(time.Now().Add(time.Duration(randIntn(25, 75)) * time.Millisecond))
 		hurry := readChar()
-		fmt.Printf("%c", c)
 		if hurry {
 			fmt.Printf("%s", str[i:])
 			return
 		}
+		fmt.Printf("%c", c)
 	}
 }
 
+//// Currently does not work, I am trying to make `SyscallConn` work to allow
+//`SetReadDeadline` a valid file/pipe
+//
 // Reads a character from stdin without printing it, then sends true if the
 // char is an escape character
 //
 // taken from
 // https://stackoverflow.com/questions/15159118/read-a-character-from-standard-input-in-go-without-pressing-enter
+
 func readChar() bool {
 	// switch stdin into 'raw' mode
-	oldState, err := term.MakeRaw(int(os.Stdin.Fd()))
+	sysconn_fd, err := os.Stdin.SyscallConn()
 	if err != nil {
 		fmt.Println(err)
 	}
-	defer term.Restore(int(os.Stdin.Fd()), oldState)
 
 	b := make([]byte, 1)
+	var oldState *term.State
+	err = sysconn_fd.Control(func(fd uintptr) {
+		oldState, err = term.MakeRaw(int(fd))
+		if err != nil {
+			fmt.Println(err)
+		}
+	})
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	_, err = os.Stdin.Read(b)
 	if err != nil {
 		fmt.Println(err)
 	}
 
+	err = sysconn_fd.Control(func(fd uintptr) {
+		term.Restore(int(fd), oldState)
+	})
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	escape_chars := "q\n\r "
-	fmt.Printf("\nthe char %q was hit\n", string(b[0]))
 	return strings.Contains(escape_chars, string(b[0]))
 }
