@@ -5,7 +5,6 @@ import (
 	"math/rand"
 	"os"
 	"strings"
-	"sync"
 	"time"
 
 	"golang.org/x/term"
@@ -25,48 +24,60 @@ func randIntn(min, max int) int {
 //	space
 //	return
 //	q
+// func printSlow(str string) {
+// 	var wg sync.WaitGroup
+//
+// 	done_writing := make(chan bool, 1)
+// 	hurry := make(chan bool, 1)
+//
+// 	wg.Add(1)
+// 	go func() {
+// 		done_printing := false
+// 		defer wg.Done()
+// 		for !done_printing {
+// 			select {
+// 			case done_printing = <-done_writing:
+// 				return
+// 			default:
+// 				if readChar() {
+// 					hurry <- true
+// 					return
+// 				}
+// 			}
+// 		}
+// 	}()
+//
+// 	wg.Add(1)
+// 	go func() {
+// 		stop_delay := false
+// 		defer wg.Done()
+// 		for _, letter := range str {
+// 			select {
+// 			case stop_delay = <-hurry:
+// 				fmt.Printf("%c", letter)
+// 			default:
+// 				if !stop_delay {
+// 					time.Sleep(time.Duration(randIntn(25, 75)) * time.Millisecond)
+// 				}
+// 				fmt.Printf("%c", letter)
+// 			}
+// 		}
+// 		done_writing <- true
+// 	}()
+//
+// 	wg.Wait()
+// }
+
 func printSlow(str string) {
-	var wg sync.WaitGroup
-
-	done_writing := make(chan bool, 1)
-	hurry := make(chan bool, 1)
-
-	wg.Add(1)
-	go func() {
-		done_printing := false
-		defer wg.Done()
-		for !done_printing {
-			select {
-			case done_printing = <-done_writing:
-				return
-			default:
-				if readChar() {
-					hurry <- true
-					return
-				}
-			}
+	for i, c := range str {
+		os.Stdin.SetReadDeadline(time.Now().Add(time.Duration(randIntn(25, 75)) * time.Millisecond))
+		hurry := readChar()
+		fmt.Printf("%c", c)
+		if hurry {
+			fmt.Printf("%s", str[i:])
+			return
 		}
-	}()
-
-	wg.Add(1)
-	go func() {
-		stop_delay := false
-		defer wg.Done()
-		for _, letter := range str {
-			select {
-			case stop_delay = <-hurry:
-				fmt.Printf("%c", letter)
-			default:
-				if !stop_delay {
-					time.Sleep(time.Duration(randIntn(25, 75)) * time.Millisecond)
-				}
-				fmt.Printf("%c", letter)
-			}
-		}
-		done_writing <- true
-	}()
-
-	wg.Wait()
+	}
 }
 
 // Reads a character from stdin without printing it, then sends true if the
@@ -82,17 +93,13 @@ func readChar() bool {
 	}
 	defer term.Restore(int(os.Stdin.Fd()), oldState)
 
-	// set read deadline for 50ms to match printChar timing
-	read_deadline := time.Now().Add(time.Duration(50) * time.Millisecond)
-
 	b := make([]byte, 1)
-	os.Stdin.SetReadDeadline(read_deadline)
 	_, err = os.Stdin.Read(b)
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	escape_chars := "q\n\r "
-	// fmt.Printf("\nthe char %q was hit\n", string(b[0]))
+	fmt.Printf("\nthe char %q was hit\n", string(b[0]))
 	return strings.Contains(escape_chars, string(b[0]))
 }
