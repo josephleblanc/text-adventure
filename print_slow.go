@@ -31,11 +31,9 @@ func printSlow(str string) {
 	done_writing := make(chan bool, 1)
 	hurry := make(chan bool, 1)
 
-	stop_delay := false
-	done_printing := false
-
 	wg.Add(1)
 	go func() {
+		done_printing := false
 		defer wg.Done()
 		for !done_printing {
 			select {
@@ -52,6 +50,7 @@ func printSlow(str string) {
 
 	wg.Add(1)
 	go func() {
+		stop_delay := false
 		defer wg.Done()
 		for _, letter := range str {
 			select {
@@ -83,7 +82,11 @@ func readChar() bool {
 	}
 	defer term.Restore(int(os.Stdin.Fd()), oldState)
 
+	// set read deadline for 50ms to match printChar timing
+	read_deadline := time.Now().Add(time.Duration(50) * time.Millisecond)
+
 	b := make([]byte, 1)
+	os.Stdin.SetReadDeadline(read_deadline)
 	_, err = os.Stdin.Read(b)
 	if err != nil {
 		fmt.Println(err)
