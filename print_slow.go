@@ -38,7 +38,7 @@ func printSlow(str string) {
 			case done_printing = <-done_writing:
 				// fmt.Println("\ndone_printing received:", done_printing)
 			default:
-				if test1() {
+				if readChar() {
 					hurry <- true
 				}
 			}
@@ -67,7 +67,7 @@ func printSlow(str string) {
 
 // taken from
 // https://stackoverflow.com/questions/15159118/read-a-character-from-standard-input-in-go-without-pressing-enter
-func test1() bool {
+func readChar() bool {
 	// switch stdin into 'raw' mode
 	oldState, err := term.MakeRaw(int(os.Stdin.Fd()))
 	if err != nil {
