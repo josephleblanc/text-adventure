@@ -43,7 +43,6 @@ func clear() {
 // Prompts the user to continue description or exit program.
 // Returns the string of user input.
 func promptEnter() string {
-	fmt.Printf("\n")
 	scanner := bufio.NewScanner(os.Stdin)
 	scanner.Scan()
 	defer checkQuit(scanner)

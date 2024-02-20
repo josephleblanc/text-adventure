@@ -19,7 +19,12 @@ func randIntn(min, max int) int {
 	return min + rand.Intn(max-min)
 }
 
-// Outputs a string rune-by-rune with a delay
+// Outputs a string rune-by-rune with a delay,
+// stops delay if the user enters an escape character, currently
+//
+//	space
+//	return
+//	q
 func printSlow(str string) {
 	var wg sync.WaitGroup
 
@@ -33,13 +38,13 @@ func printSlow(str string) {
 	go func() {
 		defer wg.Done()
 		for !done_printing {
-			// fmt.Println("\ndone_printing:", done_printing)
 			select {
 			case done_printing = <-done_writing:
-				// fmt.Println("\ndone_printing received:", done_printing)
+				return
 			default:
 				if readChar() {
 					hurry <- true
+					return
 				}
 			}
 		}
@@ -65,6 +70,9 @@ func printSlow(str string) {
 	wg.Wait()
 }
 
+// Reads a character from stdin without printing it, then sends true if the
+// char is an escape character
+//
 // taken from
 // https://stackoverflow.com/questions/15159118/read-a-character-from-standard-input-in-go-without-pressing-enter
 func readChar() bool {
