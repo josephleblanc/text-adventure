@@ -19,3 +19,6 @@
 
 # Go workspace file
 go.work
+
+# My mindmap file and its pdf
+mind_map_pseudocode.*

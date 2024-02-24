@@ -21,7 +21,7 @@ import (
 )
 
 // Centers the input text in the terminal, padding with whitespace.
-func center_text(text string) {
+func centerText(text string) {
 	width, _, err := term.GetSize(0)
 	if err != nil {
 		return
@@ -46,6 +46,7 @@ func promptEnter() string {
 	scanner := bufio.NewScanner(os.Stdin)
 	scanner.Scan()
 	defer checkQuit(scanner)
+	defer checkHelp(scanner)
 
 	err := scanner.Err()
 	if err != nil {
@@ -54,11 +55,67 @@ func promptEnter() string {
 	return scanner.Text()
 }
 
+// prompt the user to continue with "c" or "continue"
+// blocks the program until the user continues
+func promptContinue() bool {
+	for {
+		scanner := bufio.NewScanner(os.Stdin)
+		scanner.Scan()
+		err := scanner.Err()
+		if err != nil {
+			log.Fatal(err)
+		}
+		if checkContinue(scanner) {
+			return true
+		} else {
+			checkQuit(scanner)
+			if checkHelp(scanner) {
+				helpInfo()
+			}
+			centerText("Sorry, but I do not understand.")
+			centerText("<Type \"continue\" or \"c\" to continue, or quit with \"quit\" or \"q\">")
+		}
+	}
+}
+
 // Checks if user has entered "quit" to exit program.
 func checkQuit(scanner *bufio.Scanner) {
-	if scanner.Text() == "quit" {
-		os.Exit(0)
+	keywords := [...]string{
+		"quit",
+		"q",
 	}
+	for _, str := range keywords {
+		if str == scanner.Text() {
+			os.Exit(0)
+		}
+	}
+}
+
+// Checks if user input contains a help request and prints the help message.
+func checkHelp(scanner *bufio.Scanner) bool {
+	keywords := [...]string{
+		"help",
+		"h",
+	}
+	for _, str := range keywords {
+		if str == scanner.Text() {
+			return true
+		}
+	}
+	return false
+}
+
+func checkContinue(scanner *bufio.Scanner) bool {
+	keywords := [...]string{
+		"continue",
+		"c",
+	}
+	for _, str := range keywords {
+		if str == scanner.Text() {
+			return true
+		}
+	}
+	return false
 }
 
 // Writes an elipsis with delays between each `.`

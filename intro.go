@@ -4,13 +4,15 @@ import (
 	"fmt"
 )
 
-func print_title() {
+// Print game title, short description, and author in the center of the
+// terminal.
+func printTitle() {
 	fmt.Printf("\n\n")
-	center_text("Asleep at the Terminal")
+	centerText("Asleep at the Terminal")
 	fmt.Printf("\n")
 	intro_desc := "A Text Adventure Game"
-	center_text(intro_desc)
+	centerText(intro_desc)
 	author := "by Brasides"
-	center_text(author)
+	centerText(author)
 	fmt.Printf("\n")
 }
