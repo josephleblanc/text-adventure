@@ -21,9 +21,10 @@ type playerData struct {
 	inventory []string
 }
 
-func newPlayerData(name string) {
+func newPlayerData(name string) playerData {
 	p := playerData{name: name}
 	p.inventory = []string{}
+	return p
 }
 
 func (p *playerData) invent_add(item string) {

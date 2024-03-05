@@ -1,0 +1,5 @@
+Bug List
+1. Repeating name of user when entered was done in two places
+  Fix: Find and the duplicate print statements and make sure the name is only printed once.
+2. Text printed on the same line as a previous print statement.
+  Fix: Add a '\n' to the beginning of the print.

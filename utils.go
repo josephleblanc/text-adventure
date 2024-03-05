@@ -78,6 +78,52 @@ func promptContinue() bool {
 	}
 }
 
+// prompt the user to continue with "c" or "continue"
+// blocks the program until the user continues
+func promptName(user_input *UserInput) playerData {
+	// pre_verify := "Your name is "
+	// post_verify := ", is that right?"
+	scanner := bufio.NewScanner(os.Stdin)
+	scanner.Scan()
+	err := scanner.Err()
+	if err != nil {
+		log.Fatal(err)
+	}
+	user_input.selection = scanner.Text()
+	// name := scanner.Text()
+	verifyUserInput(scanner, user_input)
+	return newPlayerData(user_input.selection)
+}
+
+func verifyUserInput(scanner *bufio.Scanner, user_input *UserInput,
+
+// to_verify string, pre_verify string, post_verify string
+) string {
+	printSlow(user_input.pre_verify + user_input.selection + user_input.post_verify)
+	for {
+		centerText("\n<Type \"y\" to confirm, or \"n\" to enter again.>")
+		scanner.Scan()
+		err := scanner.Err()
+		if err != nil {
+			log.Fatal(err)
+		}
+		checkQuit(scanner)
+		if checkHelp(scanner) {
+			helpInfo()
+		}
+		switch scanner.Text() {
+		case "y":
+			return user_input.selection
+		case "n":
+			scanner.Scan()
+			centerText("\n<Please enter your name>\n")
+			user_input.selection = scanner.Text()
+			return verifyUserInput(scanner, user_input)
+		}
+
+	}
+}
+
 // Checks if user has entered "quit" to exit program.
 func checkQuit(scanner *bufio.Scanner) {
 	keywords := [...]string{

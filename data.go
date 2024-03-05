@@ -20,6 +20,21 @@ type (
 	}
 )
 
+// A type of user input that
+type UserInput struct {
+	// The value of the user input
+	selection string
+	// The first part of the sentence to verify input
+	// e.g. "Your name is "
+	pre_verify string
+	// The second part of the sentence to verify input
+	// e.g. ", is that right?"
+	post_verify string
+	// The descriptive name of the value the user is asked to input.
+	// e.g. "name"
+	to_select string
+}
+
 // Interactable objects, e.g. light switch
 type Object struct {
 	name     string
