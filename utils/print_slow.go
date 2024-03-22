@@ -1,4 +1,4 @@
-package main
+package utils
 
 import (
 	"fmt"
@@ -25,7 +25,7 @@ func randIntn(min, max int) int {
 //	space
 //	return
 //	q
-func printSlow(str string) {
+func PrintSlow(str string) {
 	var wg sync.WaitGroup
 
 	done_writing := make(chan bool, 1)

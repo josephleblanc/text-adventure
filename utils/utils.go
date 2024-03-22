@@ -1,4 +1,4 @@
-package main
+package utils
 
 //// Sources
 //
@@ -15,13 +15,14 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"text-adventure/mytypes"
 	"time"
 
 	"golang.org/x/term"
 )
 
 // Centers the input text in the terminal, padding with whitespace.
-func centerText(text string) {
+func CenterText(text string) {
 	width, _, err := term.GetSize(0)
 	if err != nil {
 		return
@@ -42,7 +43,7 @@ func clear() {
 
 // Prompts the user to continue description or exit program.
 // Returns the string of user input.
-func promptEnter() string {
+func PromptEnter() string {
 	scanner := bufio.NewScanner(os.Stdin)
 	scanner.Scan()
 	defer checkQuit(scanner)
@@ -57,7 +58,7 @@ func promptEnter() string {
 
 // prompt the user to continue with "c" or "continue"
 // blocks the program until the user continues
-func promptContinue() bool {
+func PromptContinue() bool {
 	for {
 		scanner := bufio.NewScanner(os.Stdin)
 		scanner.Scan()
@@ -70,38 +71,36 @@ func promptContinue() bool {
 		} else {
 			checkQuit(scanner)
 			if checkHelp(scanner) {
-				helpInfo()
+				HelpInfo()
 			}
-			centerText("Sorry, but I do not understand.")
-			centerText("<Type \"continue\" or \"c\" to continue, or quit with \"quit\" or \"q\">")
+			CenterText("Sorry, but I do not understand.")
+			CenterText("<Type \"continue\" or \"c\" to continue, or quit with \"quit\" or \"q\">")
 		}
 	}
 }
 
 // prompt the user to continue with "c" or "continue"
 // blocks the program until the user continues
-func promptName(user_input *UserInput) playerData {
-	// pre_verify := "Your name is "
-	// post_verify := ", is that right?"
+func PromptName(user_input *mytypes.UserInput) mytypes.PlayerData {
+	fmt.Printf("\nName: ")
 	scanner := bufio.NewScanner(os.Stdin)
 	scanner.Scan()
 	err := scanner.Err()
 	if err != nil {
 		log.Fatal(err)
 	}
-	user_input.selection = scanner.Text()
+	user_input.Selection = scanner.Text()
 	// name := scanner.Text()
 	verifyUserInput(scanner, user_input)
-	return newPlayerData(user_input.selection)
+	return mytypes.NewPlayerData(user_input.Selection)
 }
 
-func verifyUserInput(scanner *bufio.Scanner, user_input *UserInput,
-
-// to_verify string, pre_verify string, post_verify string
+func verifyUserInput(scanner *bufio.Scanner, user_input *mytypes.UserInput,
 ) string {
-	printSlow(user_input.pre_verify + user_input.selection + user_input.post_verify)
+	PrintSlow(user_input.PreVerify + user_input.Selection + user_input.PostVerify)
+	fmt.Println()
+	CenterText("<Type \"y\" to confirm, or \"n\" to enter again.>")
 	for {
-		centerText("\n<Type \"y\" to confirm, or \"n\" to enter again.>")
 		scanner.Scan()
 		err := scanner.Err()
 		if err != nil {
@@ -109,19 +108,26 @@ func verifyUserInput(scanner *bufio.Scanner, user_input *UserInput,
 		}
 		checkQuit(scanner)
 		if checkHelp(scanner) {
-			helpInfo()
+			HelpInfo()
 		}
 		switch scanner.Text() {
 		case "y":
-			return user_input.selection
+			return user_input.Selection
 		case "n":
+			fmt.Println()
+			CenterText("<Please enter your name>")
+			fmt.Printf("%s: ", user_input.FieldName)
 			scanner.Scan()
-			centerText("\n<Please enter your name>\n")
-			user_input.selection = scanner.Text()
+			user_input.Selection = scanner.Text()
 			return verifyUserInput(scanner, user_input)
 		}
 
 	}
+}
+
+// Display a general purpose help message to user when they have entered an invalid input.
+func HelpInfo() {
+	CenterText("<For help, type \"help\" or \"h\". To exit the program, type \"quit\" or \"q\".>")
 }
 
 // Checks if user has entered "quit" to exit program.
@@ -165,7 +171,7 @@ func checkContinue(scanner *bufio.Scanner) bool {
 }
 
 // Writes an elipsis with delays between each `.`
-func elipsis() {
+func Ellipsis() {
 	for i := 0; i < 3; i++ {
 		fmt.Printf(".")
 		time.Sleep(500 * time.Millisecond)

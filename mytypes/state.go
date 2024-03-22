@@ -1,4 +1,4 @@
-package main
+package mytypes
 
 //// Sources
 //
@@ -16,17 +16,17 @@ package main
 // I've used their example code and made significant alterations to suite the
 // program's purpse
 
-type playerData struct {
-	name      string
-	inventory []string
+type PlayerData struct {
+	Name      string
+	Inventory []string
 }
 
-func newPlayerData(name string) playerData {
-	p := playerData{name: name}
-	p.inventory = []string{}
+func NewPlayerData(name string) PlayerData {
+	p := PlayerData{Name: name}
+	p.Inventory = []string{}
 	return p
 }
 
-func (p *playerData) invent_add(item string) {
-	p.inventory = append(p.inventory, item)
+func (p *PlayerData) invent_add(item string) {
+	p.Inventory = append(p.Inventory, item)
 }
