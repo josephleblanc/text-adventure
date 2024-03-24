@@ -62,7 +62,7 @@ type Player struct {
 	name   string
 	truths []Statement
 	// index of has_ability is Ability.name
-	has_ability    map[string]bool
+	HasAbility     map[string]bool
 	tutorial_done  bool
 	aristotle_done bool
 	in_challenge   bool

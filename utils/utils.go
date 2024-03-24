@@ -46,8 +46,8 @@ func clear() {
 func PromptEnter() string {
 	scanner := bufio.NewScanner(os.Stdin)
 	scanner.Scan()
-	defer checkQuit(scanner)
-	defer checkHelp(scanner)
+	defer CheckQuit(scanner)
+	defer CheckHelp(scanner)
 
 	err := scanner.Err()
 	if err != nil {
@@ -69,8 +69,8 @@ func PromptContinue() bool {
 		if checkContinue(scanner) {
 			return true
 		} else {
-			checkQuit(scanner)
-			if checkHelp(scanner) {
+			CheckQuit(scanner)
+			if CheckHelp(scanner) {
 				HelpInfo()
 			}
 			CenterText("Sorry, but I do not understand.")
@@ -106,8 +106,8 @@ func verifyUserInput(scanner *bufio.Scanner, user_input *mytypes.UserInput,
 		if err != nil {
 			log.Fatal(err)
 		}
-		checkQuit(scanner)
-		if checkHelp(scanner) {
+		CheckQuit(scanner)
+		if CheckHelp(scanner) {
 			HelpInfo()
 		}
 		switch scanner.Text() {
@@ -131,7 +131,7 @@ func HelpInfo() {
 }
 
 // Checks if user has entered "quit" to exit program.
-func checkQuit(scanner *bufio.Scanner) {
+func CheckQuit(scanner *bufio.Scanner) {
 	keywords := [...]string{
 		"quit",
 		"q",
@@ -144,7 +144,7 @@ func checkQuit(scanner *bufio.Scanner) {
 }
 
 // Checks if user input contains a help request and prints the help message.
-func checkHelp(scanner *bufio.Scanner) bool {
+func CheckHelp(scanner *bufio.Scanner) bool {
 	keywords := [...]string{
 		"help",
 		"h",

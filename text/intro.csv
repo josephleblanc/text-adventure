@@ -5,11 +5,9 @@ aristotle1|You open your eyes to a stark white room with bare walls and no furni
 aristotle2|Hello sleeper, welcome to the dreamscape. Sometimes visitors arrive here after drifting off to sleep while thinking of logic, computing, or math. What is your name, sleeper?
 aristitle3.1|You have arrived at a fortunate moment 
 aristotle3.2|, as the dreamscape is currently dealing with an influx of irrationality thanks to the popularity of that damn Lewis Carrol. We could really use your help to return rationality to the realm, but first I'll need to equip you with the tools of a logician.
-aristotle4|I can only provide you with two such tools, as the others were recently stolen from me by an small white rabbit... Your first tool is called, "modus ponens", and your second tool is called a "truth table".
-aristotle5|First I shall tell you about "modus ponens". This is a rule which states that if some statement X is true, and X implies Y, then Y is also true. It is a simple yet powerful tool which is the foundation of logical thinking.
+aristotle4|I can only provide you with two such tools, as the others were recently stolen from me by an small white rabbit... Your first tool is called, modus ponens, and your second tool is called a truth table.
+aristotle5|First I shall tell you about modus ponens. This is a rule which states that if some statement X is true, and X implies Y, then Y is also true. It is a simple yet powerful tool which is the foundation of logical thinking.
 aristotle6|For example, consider the following problem:
-modus_ponens1|"man/woman is mortal"
-modus_ponens2|"I am a man/woman"
-modus_ponens3|"Therefore, I am mortal"
-modus_ponens_help1|<
-
+modus_ponens1|man/woman is mortal
+modus_ponens2|I am a man/woman
+modus_ponens3|Therefore, I am mortal
