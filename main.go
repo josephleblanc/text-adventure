@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"text-adventure/myprint"
 	"text-adventure/mytypes"
 	"text-adventure/puzzles"
 	"text-adventure/utils"
@@ -26,19 +27,19 @@ func main() {
 
 	utils.PromptEnter()
 
-	utils.PrintSlow("\t" + text_map["intro1"])
+	myprint.PrintSlow("\t" + text_map["intro1"])
 	utils.CenterText("\n\n<Type \"continue\" or \"c\" to continue, or type \"quit\" to exit the program>")
 	utils.PromptContinue()
-	utils.PrintSlow("\t" + text_map["intro2"])
+	myprint.PrintSlow("\t" + text_map["intro2"])
 	fmt.Printf("\n")
 	utils.Ellipsis()
 	fmt.Printf("\n")
 	// Introduce Aristotle
-	utils.PrintSlow("\t" + text_map["aristotle1"])
+	myprint.PrintSlow("\t" + text_map["aristotle1"])
 	utils.PromptContinue()
-	utils.PrintSlow("\t" + text_map["aristotle2"])
+	myprint.PrintSlow("\t" + text_map["aristotle2"])
 	player_data := utils.PromptName(input_map["name"])
-	utils.PrintSlow("\t" + text_map["aristotle3.1"] + player_data.Name + text_map["aristotle3.2"])
+	myprint.PrintSlow("\t" + text_map["aristotle3.1"] + player_data.Name + text_map["aristotle3.2"])
 
 	puzzles.ModusPonensTutorial(&player)
 }

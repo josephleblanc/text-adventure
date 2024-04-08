@@ -2,16 +2,18 @@ package mytypes
 
 type (
 	Map struct {
-		room []Room
+		rooms map[string]Room
 	}
 	Room struct {
+		Name        string
+		description string
 		is_explored bool
 		items       []Item
 		npcs        []Npc
 		objects     []Object
 		// keys are directions, e.g. 'east', 'north'
-		goes_to []*Room
-		doors   []Door
+		GoesTo map[string]*Room
+		doors  []Door
 	}
 	Door struct {
 		is_open bool
@@ -70,7 +72,7 @@ type Player struct {
 	// index of has_def is Definition.name
 	has_defn  map[string]bool
 	inventory []Item
-	in_room   Room
+	InRoom    string
 }
 
 // Items the user can pick up and keep

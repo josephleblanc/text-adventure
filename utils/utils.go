@@ -15,6 +15,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"text-adventure/myprint"
 	"text-adventure/mytypes"
 	"time"
 
@@ -97,7 +98,7 @@ func PromptName(user_input *mytypes.UserInput) mytypes.PlayerData {
 
 func verifyUserInput(scanner *bufio.Scanner, user_input *mytypes.UserInput,
 ) string {
-	PrintSlow(user_input.PreVerify + user_input.Selection + user_input.PostVerify)
+	myprint.PrintSlow(user_input.PreVerify + user_input.Selection + user_input.PostVerify)
 	fmt.Println()
 	CenterText("<Type \"y\" to confirm, or \"n\" to enter again.>")
 	for {
