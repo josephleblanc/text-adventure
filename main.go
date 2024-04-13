@@ -20,6 +20,7 @@ func main() {
 	player := mytypes.Player{
 		HasAbility: make(map[string]bool),
 	}
+	puzzles.ContraPositiveTutorial(&player)
 
 	printTitle()
 
@@ -40,6 +41,18 @@ func main() {
 	myprint.PrintSlow("\t" + text_map["aristotle2"])
 	player_data := utils.PromptName(input_map["name"])
 	myprint.PrintSlow("\t" + text_map["aristotle3.1"] + player_data.Name + text_map["aristotle3.2"])
+	utils.PromptContinue()
+	myprint.PrintSlow("\t" + text_map["aristotle4"])
+	utils.PromptContinue()
+	myprint.PrintSlow("\t" + text_map["aristotle5"])
+	utils.PromptContinue()
+	myprint.PrintSlow("\t" + text_map["aristotle6"])
 
 	puzzles.ModusPonensTutorial(&player)
+	myprint.PrintSlow("\tAristotle: Well done! I apologize if this is the first time you were made aware of this, but as a man/woman you are indeed mortal. This demonstrates the power and peril of symbolic logic - it allows us to arrive at new and sometimes uncomfortable truths.")
+	// TODO: Add a way for the user to check which logic tools they have access to, along with their descriptions.
+	myprint.PrintSlow("\tAristotle: If you ever forget the logic tools, just think \"help\" or \"h\"")
+
+	// Conclude Aristotle scene
+	myprint.PrintSlow("\tAristotle: Now that you have your first tool of logic, I can go back to thinking and leave all the work to you, my dear student. You may \"go\" wherever you wish in the four cardinal directions (north, west, south, east), just be sure to \"look\" and see if there is a passage there. Now, go clear the conundrums, and once you prove <win conition here>, you will be returned to your waking world.")
 }

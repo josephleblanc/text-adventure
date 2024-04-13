@@ -14,6 +14,10 @@ type Statement struct {
 	TruthVal string
 }
 
+func (s *Statement) Truth() *string {
+	return &s.TruthVal
+}
+
 type Puzzle struct {
 	Stats map[string]Statement
 	Imps  map[string]Implication
@@ -36,6 +40,16 @@ func (s *Statement) NegString() string {
 	return s.Relation + neg_string
 }
 
+func (s *Statement) Negate() {
+	s.IsNeg = !s.IsNeg
+	if s.TruthVal == "true" {
+		s.TruthVal = "false"
+	}
+	if s.TruthVal == "false" {
+		s.TruthVal = "true"
+	}
+}
+
 func (s *Statement) ToString() string {
 	truth_string := "?:    "
 	switch s.TruthVal {
@@ -44,8 +58,12 @@ func (s *Statement) ToString() string {
 	case "false":
 		truth_string = "False:"
 	}
+	neg_symb := ""
+	if s.IsNeg {
+		neg_symb = "!"
+	}
 	all_strings := []string{
-		"(" + s.Letter + ")\t\t",
+		"(" + neg_symb + s.Letter + ")\t\t",
 		truth_string,
 		s.Subject,
 		s.NegString(),
@@ -53,6 +71,30 @@ func (s *Statement) ToString() string {
 	}
 	return strings.Join(all_strings, " ")
 }
+
+// type HasTruth interface {
+// 	Truth() *string
+// 	IsNegInterface() *bool
+// }
+
+// func (s *Statement) IsNegInterface() *bool {
+// 	return &s.IsNeg
+// }
+// func (s *Implication) IsNegInterface() *bool {
+// 	return &s.IsNeg
+// }
+
+// func NegSelf[T HasTruth](t T) bool {
+// 	*t.IsNegInterface() = !*t.IsNegInterface()
+// 	if *t.Truth() == "true" {
+// 		*t.Truth() = "false"
+// 		return true
+// 	} else if *t.Truth() == "false" {
+// 		*t.Truth() = ""
+// 		return true
+// 	}
+// 	return false
+// }
 
 type Implication struct {
 	// Symbolic letter
@@ -63,6 +105,10 @@ type Implication struct {
 	Ant Statement
 	// Consequent
 	Con Statement
+}
+
+func (i *Implication) Truth() *string {
+	return &i.TruthVal
 }
 
 func ImpFrom(letter string, truth_val string, ant *Statement, con *Statement) Implication {
@@ -79,7 +125,15 @@ func ImpFrom(letter string, truth_val string, ant *Statement, con *Statement) Im
 }
 
 func (i *Implication) ToString() string {
-	symbols := "(" + i.Letter + ": " + i.Ant.Letter + "->" + i.Con.Letter + ")\t"
+	ant_neg_symb := ""
+	con_neg_symb := ""
+	if i.Ant.IsNeg {
+		ant_neg_symb = "!"
+	}
+	if i.Con.IsNeg {
+		con_neg_symb = "!"
+	}
+	symbols := "(" + i.Letter + ": " + ant_neg_symb + i.Ant.Letter + "->" + con_neg_symb + i.Con.Letter + ")\t"
 	truth_string := "?:    "
 	switch i.TruthVal {
 	case "true":
@@ -102,15 +156,43 @@ func (i *Implication) ToString() string {
 	return strings.Join(all_strings, " ")
 }
 
-func ModusPonens(stat_a *Statement, stat_b *Statement, imp *Implication) {
+// Applies the modus ponens transformation to an implication, if the antecedent
+// has a known truth value.
+func ModusPonens(stat_a *Statement, stat_b *Statement, imp *Implication) bool {
 	if stat_a.TruthVal == "true" || stat_a.TruthVal == "false" {
 		if *imp == ImpFrom(imp.Letter, imp.TruthVal, stat_a, stat_b) {
 			stat_b.TruthVal = stat_a.TruthVal
 			fmt.Println(stat_a.ToString())
 			fmt.Println(imp.ToString())
 			fmt.Println(stat_b)
+			return true
 		}
-	} else {
-		fmt.Println("Modus Ponens does not apply in this case.")
 	}
+	//  else {
+	// 	fmt.Println("Modus Ponens does not apply in this case.")
+	//    return false
+	// }
+	return false
+}
+
+func ContraPositive(imp *Implication) bool {
+	hold_ant := imp.Ant
+	imp.Ant = imp.Con
+	imp.Con = hold_ant
+	imp.Ant.Negate()
+	imp.Con.Negate()
+	fmt.Println(imp.ToString())
+	return true
+}
+
+func Negate(stat *Statement) bool {
+	if stat.TruthVal == "true" {
+		stat.TruthVal = "false"
+	} else if stat.TruthVal == "false" {
+		stat.TruthVal = "true"
+	} else {
+		return false
+	}
+	stat.IsNeg = !stat.IsNeg
+	return true
 }

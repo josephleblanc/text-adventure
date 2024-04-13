@@ -44,18 +44,31 @@ func PromptTool(puz *Puzzle, backup *Puzzle, player *mytypes.Player) {
 	input := strings.Trim(scanner.Text(), " ")
 	split := strings.Split(input, " ")
 
+	// check for modus ponens command (long version)
 	if len(split) == 4 && (split[0] == "modus" && split[1] == "ponens") {
-		// check for modus ponens command (long version)
 		vals := HandleModusPonens(puz, split[2], split[3])
 		for _, v := range vals {
 			fmt.Println(v)
 		}
-	} else if len(split) == 3 && split[0] == "mp" {
 		// check for modus ponens command (short version)
+	} else if len(split) == 3 && split[0] == "mp" {
 		vals := HandleModusPonens(puz, split[1], split[2])
 		for _, v := range vals {
 			fmt.Println(v)
 		}
+		// check for contrapositive command
+	} else if len(split) == 2 && (split[0] == "cp" || split[1] == "contra-positive") {
+		vals := HandleContraPositive(puz, split[1])
+		for _, v := range vals {
+			fmt.Println(v)
+		}
+	} else if len(split) == 2 && split[0] == "neg" {
+		vals := HandleNegation(puz, split[1])
+		for _, v := range vals {
+			fmt.Println(v)
+		}
+	} else if len(split) == 1 && (split[0] == "status") {
+		puz.Status()
 	} else if len(split) == 1 && split[0] == "" {
 		PuzzleHelp()
 	}
@@ -130,21 +143,92 @@ func HandleModusPonens(puz *Puzzle, input_stat string, input_imp string) []strin
 	fmt.Println(ok_stat_a, ok_stat_b, ok_imp)
 	if ok_stat_a && ok_imp && ok_stat_b {
 		// Apply modus ponens rule
-		ModusPonens(&stat_a, &stat_b, &imp)
-		// Update puzzle values
-		puz.Stats[strings.ToUpper(input_stat)] = stat_a
-		puz.Stats[imp.Con.Letter] = stat_b
-		puz.Imps[strings.ToUpper(input_imp)] = imp
+		is_applied := ModusPonens(&stat_a, &stat_b, &imp)
+		if is_applied {
+			// Update puzzle values
+			puz.Stats[strings.ToUpper(input_stat)] = stat_a
+			puz.Stats[imp.Con.Letter] = stat_b
+			puz.Imps[strings.ToUpper(input_imp)] = imp
+			// Return lines to print for user
+			return []string{
+				"Modus Ponens applied!",
+				stat_a.ToString(),
+				imp.ToString(),
+				" . ",
+				". .",
+				stat_b.ToString(),
+			}
+
+		}
 		return []string{
-			"Modus Ponens applied!",
-			stat_a.ToString(),
-			imp.ToString(),
-			" . ",
-			". .",
-			stat_b.ToString(),
+			"Modus Ponens is not applicable to the selected symbols. For Modus Ponens to be applicable, the truth value of the consequent must be known. Enter \"help mp\" for more details.",
 		}
 	}
 	return []string{
-		"Modus Ponens is not applicable to the selected symbols",
+		"Invalid symbols used. Please use the symbols from the puzzle, or enter \"h\" for help",
+	}
+}
+
+func HandleContraPositive(puz *Puzzle, input_imp string) []string {
+	// Verify user has input an implication
+	imp, ok_imp := puz.Imps[strings.ToUpper(input_imp)]
+	if ok_imp {
+		old_imp_string := imp.ToString()
+		is_applied := ContraPositive(&imp)
+		if is_applied {
+			// Update puzzle values
+			puz.Imps[strings.ToUpper(input_imp)] = imp
+
+			// Return lines to print for user
+			return []string{
+				"Contra-Positive Applied!!",
+				old_imp_string,
+				" . ",
+				". .",
+				imp.ToString(),
+			}
+		}
+
+	}
+	return []string{
+		"Contra-Positive is not applicable to the selected symbol",
+	}
+}
+
+func HandleNegation(puz *Puzzle, input_stat string) []string {
+	// imp, ok_imp := puz.Imps[strings.ToUpper(input)]
+	stat, ok_stat := puz.Stats[strings.ToUpper(input_stat)]
+	// if ok_imp {
+	// 	old_in_string := imp.ToString()
+	// 	NegSelf(&imp)
+	// 	new_string := imp.ToString()
+	// 	return []string{
+	// 		"Negation Applied!",
+	// 		old_in_string,
+	// 		" . ",
+	// 		". .",
+	// 		new_string,
+	// 	}
+	// } else
+	if ok_stat {
+		old_in_string := stat.ToString()
+		is_applied := Negate(&stat)
+		if is_applied {
+
+			// Update puzzle values
+			puz.Stats[strings.ToUpper(input_stat)] = stat
+			// NegSelf(&stat)
+			new_string := stat.ToString()
+			return []string{
+				"Negation Applied!",
+				old_in_string,
+				" . ",
+				". .",
+				new_string,
+			}
+		}
+	}
+	return []string{
+		"Negation cannot be applied to the symbol entered.",
 	}
 }

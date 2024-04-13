@@ -2,12 +2,12 @@ name|content
 intro1|It is late. Your eyes are growing bleary after staring at the screen for hours. Your posture, at first upright, is now hunched with exhaustion. You have been working on this text adventure for your CSCI-20 class for so long. But soon it will be complete.
 intro2|As you hunt down the final bugs in your code, your eyes droop, your agile fingers begin to go limp, and you drowsily slump over as you fall into slumber, your cheek resting on your keyboard...
 aristotle1|You open your eyes to a stark white room with bare walls and no furniture. The only other occupant is an old man with a long white beard holding a golden sphere in his left hand. His eyes light up when he sees you and he introduces himself.
-aristotle2|Hello sleeper, welcome to the dreamscape. Sometimes visitors arrive here after drifting off to sleep while thinking of logic, computing, or math. What is your name, sleeper?
-aristitle3.1|You have arrived at a fortunate moment 
+aristotle2|Aristotle: Hello sleeper, welcome to the dreamscape. Sometimes visitors arrive here after drifting off to sleep while thinking of logic, computing, or math. What is your name, sleeper?
+aristitle3.1|Aristotle: You have arrived at a fortunate moment 
 aristotle3.2|, as the dreamscape is currently dealing with an influx of irrationality thanks to the popularity of that damn Lewis Carrol. We could really use your help to return rationality to the realm, but first I'll need to equip you with the tools of a logician.
-aristotle4|I can only provide you with two such tools, as the others were recently stolen from me by an small white rabbit... Your first tool is called, modus ponens, and your second tool is called a truth table.
-aristotle5|First I shall tell you about modus ponens. This is a rule which states that if some statement X is true, and X implies Y, then Y is also true. It is a simple yet powerful tool which is the foundation of logical thinking.
-aristotle6|For example, consider the following problem:
+aristotle4|Aristotle: I can only provide you with two such tools, as the others were recently stolen from me by an small white rabbit... Your first tool is called, modus ponens, and your second tool is called a truth table.
+aristotle5|Aristotle: First I shall tell you about modus ponens. This is a rule which states that if some statement X is true, and X implies Y, then Y is also true. It is a simple yet powerful tool which is the foundation of logical thinking.
+aristotle6|Aristotle: For example, consider the following problem:
 modus_ponens1|man/woman is mortal
 modus_ponens2|I am a man/woman
 modus_ponens3|Therefore, I am mortal

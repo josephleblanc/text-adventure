@@ -2,7 +2,7 @@ package puzzles
 
 import (
 	"fmt"
-	"text-adventure/myprint"
+	// "text-adventure/myprint"
 	"text-adventure/mytypes"
 )
 
@@ -46,8 +46,5 @@ func ModusPonensTutorial(player *mytypes.Player) {
 		// ^^ for loop contains win condition for puzzle
 		PromptTool(&puz, &backup, player)
 	}
-	myprint.PrintSlow("\nAristotle: Well done! I apologize if this is the first time you were made aware of this, but as a man/woman you are indeed mortal. This demonstrates the power and peril of symbolic logic - it allows us to arrive at new and sometimes uncomfortable truths.")
-	myprint.PrintSlow("\nAristotle: Now that you have your first tool of logic, I can go back to thinking and leave all the work to you, my dear student. You may \"go\" wherever you wish in the four cardianl directions, just be sure to \"look\" and see if there is a passage there. Now, go clear the conundrums, and once you prove <win conition here>, you will be returned to your waking world.")
-
-	// PrintSlow("A: " + first.words)
+	// TODO: Add win condition to aristotle's description below
 }
