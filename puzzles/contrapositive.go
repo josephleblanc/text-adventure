@@ -43,6 +43,8 @@ func ContraPositiveTutorial(player *mytypes.Player) {
 	player.HasAbility["cp"] = true
 	for puz.Stats["A"].TruthVal != "true" {
 		// ^^ for loop contains win condition for puzzle
+		// TODO: Add flavor text for the rain continuing to fall.
+		// Possibly from Chatgpt3. If so, add an option to change text color for gpt text.
 		PromptTool(&puz, &backup, player)
 	}
 }

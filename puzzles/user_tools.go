@@ -76,13 +76,14 @@ func PromptTool(puz *Puzzle, backup *Puzzle, player *mytypes.Player) {
 
 func PuzzleHelp() {
 	utils.CenterText("<You are currently in a puzzle.>")
-	fmt.Println("Try applying the tools you have to solve the puzzle, or you may type \"operations\" or \"ops\" to see available operations, or \"definitions\" or \"defs\" to see collected definitions.")
-	fmt.Println("To see the puzzle status, enter \"status\". To reset the puzzle, type \"reset\"")
+	fmt.Println("Try applying the tools you have to solve the puzzle, or you may type \"status\" to see the current status of the puzzle and its statements, \"operations\" or \"ops\" to see available operations, or \"definitions\" or \"defs\" to see collected definitions.")
+	fmt.Println("To reset the puzzle, type \"reset\"")
+	fmt.Println()
 }
 
 func CheckReset(puzzle *Puzzle, backup *Puzzle, scanner *bufio.Scanner) {
 	if scanner.Text() == "reset" {
-		puzzle = backup
+		*puzzle = *backup
 	}
 }
 
@@ -101,14 +102,14 @@ func CheckOps(scanner *bufio.Scanner, player *mytypes.Player) {
 	}
 	for _, str := range keywords {
 		if str == scanner.Text() {
-			fmt.Println("<You may use the following operations:")
+			fmt.Println("You may use the following operations:")
 			for _, op := range ops_list {
 				// ops_list is a global variable which may be seen a the beginning of this file
 				if player.HasAbility[op[0]] {
 					fmt.Println(op[0] + "\t" + op[1])
 				}
 			}
-			// fmt.Println("<For more details on a given operation, enter \"details [operation]\" or \"d [operation]\". For example, for details on modus ponens enter \"details modus ponens\" or \"d mp\".")
+			fmt.Println("<For more details on a given operation, enter \"details [operation]\" or \"d [operation]\". For example, for details on modus ponens enter \"details modus ponens\" or \"d mp\".")
 		}
 	}
 }
@@ -126,6 +127,9 @@ func CheckDetails(scanner *bufio.Scanner) {
 			switch trimmed {
 			case "mp", "modus ponens":
 				fmt.Println("Modus Ponens may be used by entering \"modus ponens\" or \"mp\" followed by a letter indicating a statement and a letter indicating an implication.\nFor example:")
+				fmt.Println(modus_ponens_example)
+			case "cp", "contrapositive":
+				fmt.Println("Contrapositive may be used by entering \"cp\" or \"contrapositive\" followed by a letter indicating an implication.\nFor example:")
 				fmt.Println(modus_ponens_example)
 				// more cases here
 			}
