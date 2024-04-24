@@ -3,6 +3,7 @@ package puzzles
 import (
 	// "text-adventure/myprint"
 	"fmt"
+	"text-adventure/myprint"
 	"text-adventure/mytypes"
 )
 
@@ -47,4 +48,5 @@ func ContraPositiveTutorial(player *mytypes.Player) {
 		// Possibly from Chatgpt3. If so, add an option to change text color for gpt text.
 		PromptTool(&puz, &backup, player)
 	}
+	myprint.PrintSlow("The moment you provide incontravertable proof that it must not be raining, the rain immediately stops. You are, however, still wet.")
 }

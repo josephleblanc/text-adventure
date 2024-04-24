@@ -3,6 +3,7 @@ package puzzles
 import (
 	"fmt"
 	// "text-adventure/myprint"
+	"text-adventure/myprint"
 	"text-adventure/mytypes"
 )
 
@@ -39,12 +40,12 @@ func ModusPonensTutorial(player *mytypes.Player) {
 	backup := puz
 
 	fmt.Println(stat_a.ToString() + "\n" + stat_b.ToString() + "\n" + imp_c.ToString())
-	fmt.Println("\tAristotle: We have here two statements (A) and (B), as well as an implication (C). We begin with the knowledge that (A) is true, and purpose to prove that (B) is true.")
-	fmt.Println("\tAristotle: Why don't you try to use modus ponens to show that (B) is true? Try thinking \"modus ponens A C\", or if you prefer brevity, \"mp A C\" ")
+	myprint.PrintSlow("\tAristotle: We have here two statements (A) and (B), as well as an implication (C). We begin with the knowledge that (A) is true, and purpose to prove that (B) is true.")
+	myprint.PrintSlow("\tAristotle: Why don't you try to use modus ponens to show that (B) is true? Try thinking \"modus ponens A C\", or if you prefer brevity, \"mp A C\"")
+	fmt.Println()
 	player.HasAbility["mp"] = true
 	for puz.Stats["B"].TruthVal != "true" {
 		// ^^ for loop contains win condition for puzzle
 		PromptTool(&puz, &backup, player)
 	}
-	// TODO: Add win condition to aristotle's description below
 }

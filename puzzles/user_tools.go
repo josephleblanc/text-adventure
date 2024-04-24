@@ -10,19 +10,59 @@ import (
 	"text-adventure/utils"
 )
 
-var modus_ponens_example string = `(A)		 True:  I am a man/woman
+var modus_ponens_example string = `
+(A)		 True:  I am a man/woman
 (B)		 ?:     I am mortal
 (C: A->B)	 True:  If I am a man/woman, then I am mortal.
-mp a c
+
+---------> modus ponens a c <---------
+        --OR--
+---------> mp a c <-------------------
+
 (A)		 True:  I am a man/woman
 (C: A->B)	 True:  If I am a man/woman, then I am mortal.
  .
 . .
 (B)		 True:  I am mortal`
 
+var contrapositive_example string = `
+(A)		 ?:     It is raining
+(B)		 False: It is cloudy
+(C: A->B)	 True:  If It is raining, then It is cloudy.
+
+---------> contrapositive c <---------
+        --OR--
+---------> cp c <---------------------
+
+(C: !B->!A)	 True:  If It is not cloudy, then It is not raining.
+Contra-Positive Applied!!
+(C: A->B)	 True:  If It is raining, then It is cloudy.
+ .
+. .
+(C: !B->!A)	 True:  If It is not cloudy, then It is not raining.
+`
+
+var negation_example string = `
+(A)		 ?:     It is raining
+(B)		 False: It is cloudy
+(C: A->B)	 True:  If It is raining, then It is cloudy.
+
+---------> negation b <---------
+        --OR--
+---------> neg b <--------------
+
+Negation Applied!
+(B)		 False: It is cloudy
+ .
+. .
+(!B)		 True:  It is not cloudy
+`
+
 // A complete list of operations with a short description of each
 var ops_list [][]string = [][]string{
 	{"mp", "modus ponens: Given statement A true and the implication A->B true, therefore B true"},
+	{"cp", "contrapositive: Take the negation and reverse positions of statements in an implication. For example, the true implication, A->B, apply contrapositive to get the true implication !B->!A."},
+	{"neg", "negation: If a statement is true, then the opposite of that statement is false. For example, if A is true, !A is false. Conversely, if !B is true, B is false."},
 }
 
 func PromptTool(puz *Puzzle, backup *Puzzle, player *mytypes.Player) {
@@ -109,7 +149,7 @@ func CheckOps(scanner *bufio.Scanner, player *mytypes.Player) {
 					fmt.Println(op[0] + "\t" + op[1])
 				}
 			}
-			fmt.Println("<For more details on a given operation, enter \"details [operation]\" or \"d [operation]\". For example, for details on modus ponens enter \"details modus ponens\" or \"d mp\".")
+			fmt.Println("For more details on a given operation, enter \"details [operation]\" or \"d [operation]\". For example, for details on modus ponens enter \"details modus ponens\" or \"d mp\".")
 		}
 	}
 }
@@ -126,11 +166,17 @@ func CheckDetails(scanner *bufio.Scanner) {
 			trimmed := strings.Trim(after, " ")
 			switch trimmed {
 			case "mp", "modus ponens":
+				utils.CenterText("Modus Ponens")
 				fmt.Println("Modus Ponens may be used by entering \"modus ponens\" or \"mp\" followed by a letter indicating a statement and a letter indicating an implication.\nFor example:")
-				fmt.Println(modus_ponens_example)
+				fmt.Println(modus_ponens_example + "\n")
 			case "cp", "contrapositive":
+				utils.CenterText("Contrapositive")
 				fmt.Println("Contrapositive may be used by entering \"cp\" or \"contrapositive\" followed by a letter indicating an implication.\nFor example:")
-				fmt.Println(modus_ponens_example)
+				fmt.Println(contrapositive_example + "\n")
+			case "neg", "negation":
+				utils.CenterText("Negation")
+				fmt.Println("Negation may be used by entering \"neg\" or \"negation\" followed by a letter indicating a statement. Then statement will be made false and the claim inverted.\nFor example:")
+				fmt.Println(negation_example + "\n")
 				// more cases here
 			}
 		}

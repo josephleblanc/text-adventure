@@ -68,6 +68,8 @@ func PrintSlow(str string) {
 	}()
 
 	wg.Wait()
+	fmt.Println()
+	fmt.Println()
 }
 
 // Reads a character from stdin without printing it, then sends true if the
