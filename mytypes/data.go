@@ -12,8 +12,12 @@ type (
 		npcs        []Npc
 		objects     []Object
 		// keys are directions, e.g. 'east', 'north'
-		GoesTo map[string]*Room
-		doors  []Door
+		GoesTo             map[string]*Room
+		MoveDescription    map[string]string
+		View               map[string]string
+		doors              []Door
+		is_locked          bool
+		locked_description string
 	}
 	Door struct {
 		is_open bool
