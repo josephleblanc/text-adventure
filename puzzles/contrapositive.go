@@ -42,11 +42,12 @@ func ContraPositiveTutorial(player *mytypes.Player) {
 	fmt.Println(stat_a.ToString() + "\n" + stat_b.ToString() + "\n" + imp_c.ToString())
 
 	player.HasAbility["cp"] = true
+	player.HasAbility["neg"] = true
 	for puz.Stats["A"].TruthVal != "true" {
 		// ^^ for loop contains win condition for puzzle
 		// TODO: Add flavor text for the rain continuing to fall.
 		// Possibly from Chatgpt3. If so, add an option to change text color for gpt text.
 		PromptTool(&puz, &backup, player)
 	}
-	myprint.PrintSlow("The moment you provide incontravertable proof that it must not be raining, the rain immediately stops. You are, however, still wet.")
+	myprint.PrintSlow("\tThe moment you provide incontravertable proof that it must not be raining, the rain immediately stops. You are, however, still wet.")
 }

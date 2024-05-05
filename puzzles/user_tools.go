@@ -190,7 +190,6 @@ func HandleModusPonens(puz *Puzzle, input_stat string, input_imp string) []strin
 	stat_b := imp.Con
 	_, ok_stat_b := puz.Stats[stat_b.Letter]
 
-	fmt.Println(ok_stat_a, ok_stat_b, ok_imp)
 	if ok_stat_a && ok_imp && ok_stat_b {
 		// Apply modus ponens rule
 		is_applied := ModusPonens(&stat_a, &stat_b, &imp)
@@ -207,6 +206,7 @@ func HandleModusPonens(puz *Puzzle, input_stat string, input_imp string) []strin
 				" . ",
 				". .",
 				stat_b.ToString(),
+				"\n",
 			}
 
 		}
@@ -236,6 +236,7 @@ func HandleContraPositive(puz *Puzzle, input_imp string) []string {
 				" . ",
 				". .",
 				imp.ToString(),
+				"\n",
 			}
 		}
 
@@ -246,20 +247,7 @@ func HandleContraPositive(puz *Puzzle, input_imp string) []string {
 }
 
 func HandleNegation(puz *Puzzle, input_stat string) []string {
-	// imp, ok_imp := puz.Imps[strings.ToUpper(input)]
 	stat, ok_stat := puz.Stats[strings.ToUpper(input_stat)]
-	// if ok_imp {
-	// 	old_in_string := imp.ToString()
-	// 	NegSelf(&imp)
-	// 	new_string := imp.ToString()
-	// 	return []string{
-	// 		"Negation Applied!",
-	// 		old_in_string,
-	// 		" . ",
-	// 		". .",
-	// 		new_string,
-	// 	}
-	// } else
 	if ok_stat {
 		old_in_string := stat.ToString()
 		is_applied := Negate(&stat)
@@ -275,6 +263,7 @@ func HandleNegation(puz *Puzzle, input_stat string) []string {
 				" . ",
 				". .",
 				new_string,
+				"\n",
 			}
 		}
 	}

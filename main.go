@@ -43,25 +43,28 @@ func main() {
 	// Introduce Aristotle
 	myprint.PrintSlow("\t" + text_map["aristotle1"])
 	myprint.PrintSlow("\t" + text_map["aristotle2"])
-	// fmt.Println()
-	// fmt.Println()
 	player_data := utils.PromptName(input_map["name"])
 	myprint.PrintSlow("\t" + text_map["aristotle3.1"] + player_data.Name + text_map["aristotle3.2"])
 	myprint.PrintSlow("\t" + text_map["aristotle4"])
 	myprint.PrintSlow("\t" + text_map["aristotle5"])
 	myprint.PrintSlow("\t" + text_map["aristotle6"])
+	fmt.Println()
 
+	// Tutorial: modus ponens
 	puzzles.ModusPonensTutorial(&player)
 	myprint.PrintSlow("\tAristotle: Well done! I apologize if this is the first time you were made aware of this, but as a man/woman you are indeed mortal. This demonstrates the power and peril of symbolic logic - it allows us to arrive at new and sometimes uncomfortable truths.")
 	// TODO: Add a way for the user to check which logic tools they have access to, along with their descriptions.
 	utils.CenterText("<Type \"help\" or \"h\" at any time to review details on logic tools.>")
+	fmt.Println()
 
+	// Tutorial: Negation and Contrapositive
 	myprint.PrintSlow("\tAristotle: You only need two more tools to solve all the puzzles ahead of you, Negation and Contrapositive. Negation allows you to invert a statement along with its truth value, while Contrapositive may be applied to an implication, such that the true statement \"If A then B\" becomes the true statement \"If not B then not A\"...")
 	myprint.PrintSlow("\tAristotle: That may sound complicated, but I'm confident you'll pick up the trick soon enough, given the right motivation. Here, I'll manifest a some rain to encourage you. If you don't want to be rained on, just prove that it could not be raining - there can't be rain without clouds after all.")
 	myprint.PrintSlow("\tJust as Aristotle finishes speaking, you begin to feel drops of water falling on your skin. There is indeed rain falling on you! This is rather bewildering, as the rain is not falling from clouds but through the ceiling above.")
 	puzzles.ContraPositiveTutorial(&player)
 
-	myprint.PrintSlow("\tAristotle: Well done!\n")
+	myprint.PrintSlow("\tAristotle: Well done!")
+	fmt.Println()
 	// TODO: Add win condition in the dialogue below:
 	// Conclude Aristotle scene
 	myprint.PrintSlow("\tAristotle: Now that you have your logic tools, I can go back to thinking and leave all the work to you, my dear student. You may \"go\" wherever you wish in the four cardinal directions (north, west, south, east), just be sure to \"look\" and see if there is a passage there. Now, go clear the conundrums, and once you prove <win conition here>, you will be returned to your waking world.")

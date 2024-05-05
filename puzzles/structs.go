@@ -162,9 +162,6 @@ func ModusPonens(stat_a *Statement, stat_b *Statement, imp *Implication) bool {
 	if stat_a.TruthVal == "true" || stat_a.TruthVal == "false" {
 		if *imp == ImpFrom(imp.Letter, imp.TruthVal, stat_a, stat_b) {
 			stat_b.TruthVal = stat_a.TruthVal
-			fmt.Println(stat_a.ToString())
-			fmt.Println(imp.ToString())
-			fmt.Println(stat_b)
 			return true
 		}
 	}
