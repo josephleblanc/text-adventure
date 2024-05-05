@@ -19,6 +19,13 @@ func main() {
 	// Player data that will change as the player gains access to the tools of logic
 	player := mytypes.Player{
 		HasAbility: make(map[string]bool),
+		InRoom:     "Start",
+	}
+	world_map := mytypes.InitMap()
+
+	for {
+		utils.PromptNav(&player, &world_map)
+		fmt.Println("debug: in room ", player.InRoom)
 	}
 
 	// puzzles.ModusPonensTutorial(&player)
@@ -65,7 +72,10 @@ func main() {
 
 	myprint.PrintSlow("\tAristotle: Well done!")
 	fmt.Println()
-	// TODO: Add win condition in the dialogue below:
 	// Conclude Aristotle scene
+	// TODO: Add win condition in the dialogue below:
 	myprint.PrintSlow("\tAristotle: Now that you have your logic tools, I can go back to thinking and leave all the work to you, my dear student. You may \"go\" wherever you wish in the four cardinal directions (north, west, south, east), just be sure to \"look\" and see if there is a passage there. Now, go clear the conundrums, and once you prove <win conition here>, you will be returned to your waking world.")
+	for {
+		utils.PromptNav(&player, &world_map)
+	}
 }

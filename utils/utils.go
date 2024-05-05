@@ -15,6 +15,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 	"text-adventure/myprint"
 	"text-adventure/mytypes"
 	"time"
@@ -94,6 +95,86 @@ func PromptName(user_input *mytypes.UserInput) mytypes.PlayerData {
 	// name := scanner.Text()
 	verifyUserInput(scanner, user_input)
 	return mytypes.NewPlayerData(user_input.Selection)
+}
+
+func PromptNav(p *mytypes.Player, m *mytypes.Map) bool {
+	for {
+		scanner := bufio.NewScanner(os.Stdin)
+		scanner.Scan()
+		err := scanner.Err()
+		if err != nil {
+			log.Fatal(err)
+		}
+		if tryLook(scanner, p, m) {
+			return true
+		} else if tryTravel(scanner, p, m) {
+			return true
+		} else if tryCurrentRoom(scanner, p, m) {
+			return true
+		} else {
+			CheckQuit(scanner)
+			if CheckHelp(scanner) {
+				CenterText("<Type \"look\" or \"l\" and a direction (\"north\", \"east\", \"south\", \"west\"), or \"go\" and a direction, or type \"h\" or \"help\" for help or \"q\" or \"quit\" to quit.>")
+			}
+			CenterText("Sorry, but I do not understand.")
+			HelpInfo()
+			return false
+		}
+	}
+}
+
+func tryCurrentRoom(scanner *bufio.Scanner, p *mytypes.Player, m *mytypes.Map) bool {
+	keywords := [...]string{
+		"room",
+		"r",
+	}
+
+	input := strings.Trim(scanner.Text(), " ")
+	split := strings.Split(input, " ")
+
+	for _, str := range keywords {
+		if len(split) == 1 && split[0] == str {
+			m.CurrentRoom(p)
+			return true
+		}
+	}
+	return false
+}
+
+func tryLook(scanner *bufio.Scanner, p *mytypes.Player, m *mytypes.Map) bool {
+	keywords := [...]string{
+		"look",
+		"l",
+	}
+
+	input := strings.Trim(scanner.Text(), " ")
+	split := strings.Split(input, " ")
+
+	for _, str := range keywords {
+		if len(split) == 2 && split[0] == str {
+			m.Look(p, split[1])
+			return true
+		}
+	}
+	return false
+}
+
+func tryTravel(scanner *bufio.Scanner, p *mytypes.Player, m *mytypes.Map) bool {
+	keywords := [...]string{
+		"go",
+		"g",
+	}
+
+	input := strings.Trim(scanner.Text(), " ")
+	split := strings.Split(input, " ")
+
+	for _, str := range keywords {
+		if len(split) == 2 && split[0] == str {
+			m.Travel(p, split[1])
+			return true
+		}
+	}
+	return false
 }
 
 func verifyUserInput(scanner *bufio.Scanner, user_input *mytypes.UserInput,

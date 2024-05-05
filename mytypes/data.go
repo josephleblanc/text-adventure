@@ -6,7 +6,7 @@ type (
 	}
 	Room struct {
 		Name        string
-		description string
+		Description string
 		is_explored bool
 		items       []Item
 		npcs        []Npc
@@ -74,9 +74,9 @@ type Player struct {
 	in_challenge   bool
 	can_move       bool
 	// index of has_def is Definition.name
-	has_defn  map[string]bool
-	inventory []Item
-	InRoom    string
+	has_defn map[string]bool
+	// inventory []Item
+	InRoom string
 }
 
 // Items the user can pick up and keep
