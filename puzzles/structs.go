@@ -18,6 +18,55 @@ func (s *Statement) Truth() *string {
 	return &s.TruthVal
 }
 
+func (s *Statement) IsTrue() bool {
+	return s.TruthVal == "true"
+}
+
+func (s *Statement) IsFalse() bool {
+	return s.TruthVal == "false"
+}
+
+func (s *Statement) IsEmpty() bool {
+	return s.TruthVal == "empty"
+}
+
+func (s *Statement) IsAnd() bool {
+	if s.Letter[1] == '+' && len(s.Letter) == 3 {
+		if s.Letter[0] != s.Letter[2] {
+			return true
+		}
+	}
+	return false
+}
+
+func (stat_a *Statement) TruthAndStat(stat_b *Statement) string {
+	new_truthval := "This is an error"
+	if stat_a.IsTrue() && stat_b.IsTrue() {
+		new_truthval = "true"
+	} else if stat_a.IsEmpty() || stat_b.IsEmpty() {
+		new_truthval = "unknown"
+	} else {
+		new_truthval = "false"
+	}
+	return new_truthval
+}
+
+func (s *Statement) SplitAnd() ([]byte, bool) {
+	if s.IsAnd() {
+		return []byte{s.Letter[0], s.Letter[2]}, true
+	}
+	return []byte{}, false
+}
+
+func (i *Implication) ContainsAndStats(stat_a1 string, stat_a2 string) bool {
+	if i.Ant.Letter[0] == stat_a1[0] && i.Ant.Letter[2] == stat_a2[0] {
+		return true
+	} else if i.Ant.Letter[2] == stat_a1[0] && i.Ant.Letter[0] == stat_a2[0] {
+		return true
+	}
+	return false
+}
+
 type Puzzle struct {
 	Stats map[string]Statement
 	Imps  map[string]Implication
@@ -30,6 +79,22 @@ func (p *Puzzle) Status() {
 	for _, imp := range p.Imps {
 		fmt.Println(imp.ToString())
 	}
+}
+
+func (p *Puzzle) InsertAnd(stat_a *Statement, stat_b *Statement) {
+	stat_letter_and := stat_a.Letter + "&" + stat_b.Letter
+	stat_object_and := stat_a.Letter + " and " + stat_b.Letter
+
+	new_truthval := stat_a.TruthAndStat(stat_b)
+	new_and_stat := Statement{
+		Letter:   stat_letter_and,
+		IsNeg:    false,
+		Subject:  "",
+		Relation: "",
+		Object:   stat_object_and,
+		TruthVal: new_truthval,
+	}
+	p.Stats[stat_letter_and] = new_and_stat
 }
 
 func (s *Statement) NegString() string {
@@ -171,6 +236,26 @@ func ModusPonens(stat_a *Statement, stat_b *Statement, imp *Implication) bool {
 	// }
 	return false
 }
+
+// func ModusPonensAnd(stat_and *Statement, stat_b *Statement, imp *Implication) bool {
+//   stat_split, ok_split := stat_and.SplitAnd()
+//   if ok_split {
+//     stat_a1 := stat_split[0]
+//     stat_a2 := stat_split[1]
+//     imp_stat_split, ok_split := imp.Ant.Letter.SplitAnd()
+//     if ok_split {
+//       imp_stat_a1
+//     }
+//   }
+// 	if !stat_a1.IsEmpty() && !stat_a2.IsEmpty() {
+// 			if imp_a_split == stat_a_split {
+// 			}
+// 			stat_b.TruthVal = stat_a.TruthVal
+//
+// 			return true
+// 		}
+// 	return false
+// }
 
 func ContraPositive(imp *Implication) bool {
 	hold_ant := imp.Ant

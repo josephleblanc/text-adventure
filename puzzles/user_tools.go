@@ -85,7 +85,18 @@ func PromptTool(puz *Puzzle, backup *Puzzle, player *mytypes.Player) {
 	split := strings.Split(input, " ")
 
 	// check for modus ponens command (long version)
-	if len(split) == 4 && (split[0] == "modus" && split[1] == "ponens") {
+	if len(split) == 4 && (split[0] == "modus" && split[1] == "ponens" && strings.Contains(split[2], "+")) {
+		vals := HandleModusPonens(puz, split[2], split[3])
+		for _, v := range vals {
+			fmt.Println(v)
+		}
+		// check for modus ponens command (short version)
+	} else if len(split) == 3 && split[0] == "mp" && strings.Contains(split[1], "+") {
+		vals := HandleModusPonens(puz, split[1], split[2])
+		for _, v := range vals {
+			fmt.Println(v)
+		}
+	} else if len(split) == 4 && (split[0] == "modus" && split[1] == "ponens") {
 		vals := HandleModusPonens(puz, split[2], split[3])
 		for _, v := range vals {
 			fmt.Println(v)
@@ -218,6 +229,42 @@ func HandleModusPonens(puz *Puzzle, input_stat string, input_imp string) []strin
 		"Invalid symbols used. Please use the symbols from the puzzle, or enter \"h\" for help",
 	}
 }
+
+// func HandleModusPonensAnd(puz *Puzzle, input_stat string, input_imp string) []string {
+// 	// Check if user chosen letters match puzzle letters for statement and implication
+// 	stat_a, ok_stat_a := puz.Stats[strings.ToUpper(input_stat)]
+// 	imp, ok_imp := puz.Imps[strings.ToUpper(input_imp)]
+// 	stat_b := imp.Con
+// 	_, ok_stat_b := puz.Stats[stat_b.Letter]
+//
+// 	if ok_stat_a && ok_imp && ok_stat_b {
+// 		// Apply modus ponens rule
+// 		is_applied := ModusPonens(&stat_a, &stat_b, &imp)
+// 		if is_applied {
+// 			// Update puzzle values
+// 			puz.Stats[strings.ToUpper(input_stat)] = stat_a
+// 			puz.Stats[imp.Con.Letter] = stat_b
+// 			puz.Imps[strings.ToUpper(input_imp)] = imp
+// 			// Return lines to print for user
+// 			return []string{
+// 				"Modus Ponens applied!",
+// 				stat_a.ToString(),
+// 				imp.ToString(),
+// 				" . ",
+// 				". .",
+// 				stat_b.ToString(),
+// 				"\n",
+// 			}
+//
+// 		}
+// 		return []string{
+// 			"Modus Ponens is not applicable to the selected symbols. For Modus Ponens to be applicable, the truth value of the consequent must be known. Enter \"help mp\" for more details.",
+// 		}
+// 	}
+// 	return []string{
+// 		"Invalid symbols used. Please use the symbols from the puzzle, or enter \"h\" for help",
+// 	}
+// }
 
 func HandleContraPositive(puz *Puzzle, input_imp string) []string {
 	// Verify user has input an implication
