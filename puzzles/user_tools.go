@@ -83,20 +83,12 @@ func PromptTool(puz *Puzzle, backup *Puzzle, player *mytypes.Player) {
 
 	input := strings.Trim(scanner.Text(), " ")
 	split := strings.Split(input, " ")
+	for _, str := range split {
+		strings.ToLower(str)
+	}
 
 	// check for modus ponens command (long version)
-	if len(split) == 4 && (split[0] == "modus" && split[1] == "ponens" && strings.Contains(split[2], "+")) {
-		vals := HandleModusPonens(puz, split[2], split[3])
-		for _, v := range vals {
-			fmt.Println(v)
-		}
-		// check for modus ponens command (short version)
-	} else if len(split) == 3 && split[0] == "mp" && strings.Contains(split[1], "+") {
-		vals := HandleModusPonens(puz, split[1], split[2])
-		for _, v := range vals {
-			fmt.Println(v)
-		}
-	} else if len(split) == 4 && (split[0] == "modus" && split[1] == "ponens") {
+	if len(split) == 4 && (split[0] == "modus" && split[1] == "ponens") {
 		vals := HandleModusPonens(puz, split[2], split[3])
 		for _, v := range vals {
 			fmt.Println(v)
@@ -113,8 +105,15 @@ func PromptTool(puz *Puzzle, backup *Puzzle, player *mytypes.Player) {
 		for _, v := range vals {
 			fmt.Println(v)
 		}
+		// check for negation command
 	} else if len(split) == 2 && split[0] == "neg" {
 		vals := HandleNegation(puz, split[1])
+		for _, v := range vals {
+			fmt.Println(v)
+		}
+		// check for "and" command
+	} else if len(split) == 3 && split[0] == "and" {
+		vals := HandleAnd(puz, split[1], split[2])
 		for _, v := range vals {
 			fmt.Println(v)
 		}
@@ -230,42 +229,6 @@ func HandleModusPonens(puz *Puzzle, input_stat string, input_imp string) []strin
 	}
 }
 
-// func HandleModusPonensAnd(puz *Puzzle, input_stat string, input_imp string) []string {
-// 	// Check if user chosen letters match puzzle letters for statement and implication
-// 	stat_a, ok_stat_a := puz.Stats[strings.ToUpper(input_stat)]
-// 	imp, ok_imp := puz.Imps[strings.ToUpper(input_imp)]
-// 	stat_b := imp.Con
-// 	_, ok_stat_b := puz.Stats[stat_b.Letter]
-//
-// 	if ok_stat_a && ok_imp && ok_stat_b {
-// 		// Apply modus ponens rule
-// 		is_applied := ModusPonens(&stat_a, &stat_b, &imp)
-// 		if is_applied {
-// 			// Update puzzle values
-// 			puz.Stats[strings.ToUpper(input_stat)] = stat_a
-// 			puz.Stats[imp.Con.Letter] = stat_b
-// 			puz.Imps[strings.ToUpper(input_imp)] = imp
-// 			// Return lines to print for user
-// 			return []string{
-// 				"Modus Ponens applied!",
-// 				stat_a.ToString(),
-// 				imp.ToString(),
-// 				" . ",
-// 				". .",
-// 				stat_b.ToString(),
-// 				"\n",
-// 			}
-//
-// 		}
-// 		return []string{
-// 			"Modus Ponens is not applicable to the selected symbols. For Modus Ponens to be applicable, the truth value of the consequent must be known. Enter \"help mp\" for more details.",
-// 		}
-// 	}
-// 	return []string{
-// 		"Invalid symbols used. Please use the symbols from the puzzle, or enter \"h\" for help",
-// 	}
-// }
-
 func HandleContraPositive(puz *Puzzle, input_imp string) []string {
 	// Verify user has input an implication
 	imp, ok_imp := puz.Imps[strings.ToUpper(input_imp)]
@@ -316,5 +279,41 @@ func HandleNegation(puz *Puzzle, input_stat string) []string {
 	}
 	return []string{
 		"Negation cannot be applied to the symbol entered.",
+	}
+}
+
+func HandleAnd(puz *Puzzle, stat_a string, stat_b string) []string {
+	puz_stat_a, ok_stat_a := puz.Stats[strings.ToUpper(stat_a)]
+	puz_stat_b, ok_stat_b := puz.Stats[strings.ToUpper(stat_b)]
+
+	if ok_stat_a && ok_stat_b {
+		// Apply modus ponens rule
+		is_valid := ValidateAnd(&puz_stat_a, &puz_stat_b)
+		if is_valid {
+			new_and_stat := Statement{
+				Letter:   puz_stat_a.Letter + "&" + puz_stat_b.Letter,
+				TruthVal: puz_stat_a.TruthAndStat(&puz_stat_b),
+				// Object:   puz_stat_a.Letter + "&" + puz_stat_b.Letter,
+			}
+			// Insert new "and" statement to puzzle
+			puz.Stats[strings.ToUpper(new_and_stat.Letter)] = new_and_stat
+			// Return lines to print for user
+			return []string{
+				"And Statement Created!",
+				puz_stat_a.ToString(),
+				puz_stat_b.ToString(),
+				" . ",
+				". .",
+				new_and_stat.ToString(),
+				"\n",
+			}
+
+		}
+		return []string{
+			"And Statement is not applicable to the selected symbols. For And Statement to be applicable, select two Statements. Enter \"help and\" for more details.",
+		}
+	}
+	return []string{
+		"Invalid symbols used. Please use the symbols from the puzzle, e.g. \"A\" or \"B\" for statements A or B, or enter \"h\" for help",
 	}
 }

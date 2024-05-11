@@ -23,10 +23,7 @@ func main() {
 	}
 	world_map := mytypes.InitMap()
 
-	for {
-		utils.PromptNav(&player, &world_map)
-		fmt.Println("debug: in room ", player.InRoom)
-	}
+	puzzles.CrossroadsPuzzle(&player)
 
 	// puzzles.ModusPonensTutorial(&player)
 

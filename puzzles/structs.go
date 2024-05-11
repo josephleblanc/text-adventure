@@ -12,6 +12,7 @@ type Statement struct {
 	Relation string
 	Object   string
 	TruthVal string
+	IsHidden bool
 }
 
 func (s *Statement) Truth() *string {
@@ -30,8 +31,18 @@ func (s *Statement) IsEmpty() bool {
 	return s.TruthVal == "empty"
 }
 
+func (s *Statement) IsUnkown() bool {
+	return s.TruthVal == "empty"
+}
+
 func (s *Statement) IsAnd() bool {
-	if s.Letter[1] == '+' && len(s.Letter) == 3 {
+	if strings.Contains(s.Letter, "&") {
+		str_array := strings.SplitAfter(s.Letter, "")
+		if str_array[1] == "&" && str_array[0] != str_array[2] {
+			return true
+		}
+	}
+	if s.Letter[1] == '&' && len(s.Letter) == 3 {
 		if s.Letter[0] != s.Letter[2] {
 			return true
 		}
@@ -45,17 +56,28 @@ func (stat_a *Statement) TruthAndStat(stat_b *Statement) string {
 		new_truthval = "true"
 	} else if stat_a.IsEmpty() || stat_b.IsEmpty() {
 		new_truthval = "unknown"
+	} else if stat_a.IsUnkown() || stat_b.IsUnkown() {
+		new_truthval = "empty"
 	} else {
 		new_truthval = "false"
 	}
 	return new_truthval
 }
 
-func (s *Statement) SplitAnd() ([]byte, bool) {
+// func (s *Statement) SplitAnd() ([]byte, bool) {
+// 	if s.IsAnd() {
+// 		return []byte{s.Letter[0], s.Letter[2]}, true
+// 	}
+// 	return []byte{}, false
+// }
+//
+
+func (s *Statement) SplitAnd() ([]string, bool) {
 	if s.IsAnd() {
-		return []byte{s.Letter[0], s.Letter[2]}, true
+		str_array := strings.SplitAfter(s.Letter, "")
+		return []string{str_array[0], str_array[2]}, true
 	}
-	return []byte{}, false
+	return []string{}, false
 }
 
 func (i *Implication) ContainsAndStats(stat_a1 string, stat_a2 string) bool {
@@ -278,3 +300,5 @@ func Negate(stat *Statement) bool {
 	stat.IsNeg = !stat.IsNeg
 	return true
 }
+
+func ValidateAnd(stat_a *Statement, stat_b *Statement) bool { return true }

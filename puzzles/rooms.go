@@ -38,7 +38,7 @@ import (
 //
 //	Therefore
 //	Your presents + !made of tin
-func crossroads_puzzle(player *mytypes.Player) {
+func CrossroadsPuzzle(player *mytypes.Player) {
 	stat_a := Statement{
 		Letter:   "A",
 		IsNeg:    false,
@@ -66,23 +66,60 @@ func crossroads_puzzle(player *mytypes.Player) {
 		TruthVal: "true",
 	}
 
-	stat_a_c := Statement{
-		Letter:   "",
+	stat_d := Statement{
+		Letter:   "D",
 		IsNeg:    false,
-		Subject:  "Your presents to me",
+		Subject:  "Things made of tin",
 		Relation: "are",
-		Object:   "not made of tin",
+		Object:   "useful",
 		TruthVal: "unknown",
 	}
 
-	imp_c := ImpFrom("C", "true", &stat_a, &stat_b)
+	stat_e := Statement{
+		Letter:   "E",
+		IsNeg:    true,
+		Subject:  "Your presents",
+		Relation: "are",
+		Object:   "made of tin",
+		TruthVal: "unknown",
+	}
+
+	stat_a_c := Statement{
+		Letter:   "A&C",
+		IsNeg:    false,
+		Subject:  "",
+		Relation: "",
+		Object:   "",
+		TruthVal: "unknown",
+	}
+	stat_b_d := Statement{
+		Letter:   "B&D",
+		IsNeg:    false,
+		Subject:  "",
+		Relation: "",
+		Object:   "",
+		TruthVal: "unknown",
+	}
+
+	stat_d_copy := stat_d
+	stat_d_copy.Negate()
+	imp_f := ImpFrom("F", "true", &stat_a_c, &stat_d_copy)
+	imp_g := ImpFrom("G", "true", &stat_b_d, &stat_e)
 
 	stats := make(map[string]Statement)
 	imps := make(map[string]Implication)
 
 	stats["A"] = stat_a
 	stats["B"] = stat_b
-	imps["C"] = imp_c
+	stats["C"] = stat_c
+	stats["D"] = stat_d
+	stats["E"] = stat_e
+
+	stats["A&C"] = stat_d
+	stats["D&E"] = stat_e
+
+	imps["F"] = imp_f
+	imps["G"] = imp_g
 
 	puz := Puzzle{
 		Stats: stats,
@@ -90,17 +127,20 @@ func crossroads_puzzle(player *mytypes.Player) {
 	}
 	backup := puz
 
-	fmt.Println(stat_a.ToString() + "\n" + stat_b.ToString() + "\n" + imp_c.ToString())
+	fmt.Println(stat_a.ToString())
+	fmt.Println(stat_b.ToString())
+	fmt.Println(stat_c.ToString())
+	fmt.Println(stat_d.ToString())
+	fmt.Println(stat_e.ToString())
 
-	player.HasAbility["cp"] = true
-	player.HasAbility["neg"] = true
-	for puz.Stats["A"].TruthVal != "true" {
+	// TODO: Add text introducing the "and" ability
+	player.HasAbility["and"] = true
+	for puz.Stats["E"].TruthVal != "true" {
 		// ^^ for loop contains win condition for puzzle
-		// TODO: Add flavor text for the rain continuing to fall.
-		// Possibly from Chatgpt3. If so, add an option to change text color for gpt text.
 		PromptTool(&puz, &backup, player)
 	}
-	myprint.PrintSlow("\tThe moment you provide incontravertable proof that it must not be raining, the rain immediately stops. You are, however, still wet.")
+	// TODO: Add flavor text here
+	myprint.PrintSlow("\t<Say something at the end of the puzzle>")
 }
 
 // 15.
@@ -115,6 +155,108 @@ func crossroads_puzzle(player *mytypes.Player) {
 //
 //	No gray ducks in this village wear lace collars.
 func duck_puzzle(player *mytypes.Player) {
+	stat_a := Statement{
+		Letter:   "A",
+		IsNeg:    false,
+		Subject:  "My saucepans",
+		Relation: "are",
+		Object:   "the only things I have that are made of tin",
+		TruthVal: "true",
+	}
+
+	stat_b := Statement{
+		Letter:   "B",
+		IsNeg:    false,
+		Subject:  "I",
+		Relation: "find",
+		Object:   "all your presents very useful",
+		TruthVal: "true",
+	}
+
+	stat_c := Statement{
+		Letter:   "C",
+		IsNeg:    false,
+		Subject:  "None of my saucepans",
+		Relation: "are",
+		Object:   "of the smallest use",
+		TruthVal: "true",
+	}
+
+	stat_d := Statement{
+		Letter:   "D",
+		IsNeg:    false,
+		Subject:  "Things made of tin",
+		Relation: "are",
+		Object:   "useful",
+		TruthVal: "unknown",
+	}
+
+	stat_e := Statement{
+		Letter:   "E",
+		IsNeg:    true,
+		Subject:  "Your presents",
+		Relation: "are",
+		Object:   "made of tin",
+		TruthVal: "unknown",
+	}
+
+	stat_a_c := Statement{
+		Letter:   "A&C",
+		IsNeg:    false,
+		Subject:  "",
+		Relation: "",
+		Object:   "",
+		TruthVal: "unknown",
+	}
+	stat_b_d := Statement{
+		Letter:   "B&D",
+		IsNeg:    false,
+		Subject:  "",
+		Relation: "",
+		Object:   "",
+		TruthVal: "unknown",
+	}
+
+	stat_d_copy := stat_d
+	stat_d_copy.Negate()
+	imp_f := ImpFrom("F", "true", &stat_a_c, &stat_d_copy)
+	imp_g := ImpFrom("G", "true", &stat_b_d, &stat_e)
+
+	stats := make(map[string]Statement)
+	imps := make(map[string]Implication)
+
+	stats["A"] = stat_a
+	stats["B"] = stat_b
+	stats["C"] = stat_c
+	stats["D"] = stat_d
+	stats["E"] = stat_e
+
+	stats["A&C"] = stat_d
+	stats["D&E"] = stat_e
+
+	imps["F"] = imp_f
+	imps["G"] = imp_g
+
+	puz := Puzzle{
+		Stats: stats,
+		Imps:  imps,
+	}
+	backup := puz
+
+	fmt.Println(stat_a.ToString())
+	fmt.Println(stat_b.ToString())
+	fmt.Println(stat_c.ToString())
+	fmt.Println(stat_d.ToString())
+	fmt.Println(stat_e.ToString())
+
+	// TODO: Add text introducing the "and" ability
+	player.HasAbility["and"] = true
+	for puz.Stats["E"].TruthVal != "true" {
+		// ^^ for loop contains win condition for puzzle
+		PromptTool(&puz, &backup, player)
+	}
+	// TODO: Add flavor text here
+	myprint.PrintSlow("\t<Say something at the end of the puzzle>")
 }
 
 // 19.
