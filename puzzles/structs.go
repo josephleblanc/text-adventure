@@ -66,20 +66,21 @@ func (stat_a *Statement) TruthAndStat(stat_b *Statement) string {
 	return new_truthval
 }
 
-// func (s *Statement) SplitAnd() ([]byte, bool) {
-// 	if s.IsAnd() {
-// 		return []byte{s.Letter[0], s.Letter[2]}, true
-// 	}
-// 	return []byte{}, false
-// }
-//
-
 func (s *Statement) SplitAnd() ([]string, bool) {
 	if s.IsAnd() {
 		str_array := strings.SplitAfter(s.Letter, "")
 		return []string{str_array[0], str_array[2]}, true
 	}
 	return []string{}, false
+}
+
+func (s_one Statement) Equals(s_two Statement) bool {
+	if s_one.Letter != s_two.Letter {
+		return false
+	} else if s_one.IsNeg != s_two.IsNeg {
+		return false
+	}
+	return true
 }
 
 func (i *Implication) ContainsAndStats(stat_a1 string, stat_a2 string) bool {
@@ -187,30 +188,6 @@ func (s Statement) ToString() string {
 	return strings.Join(all_strings, " ")
 }
 
-// type HasTruth interface {
-// 	Truth() *string
-// 	IsNegInterface() *bool
-// }
-
-// func (s *Statement) IsNegInterface() *bool {
-// 	return &s.IsNeg
-// }
-// func (s *Implication) IsNegInterface() *bool {
-// 	return &s.IsNeg
-// }
-
-// func NegSelf[T HasTruth](t T) bool {
-// 	*t.IsNegInterface() = !*t.IsNegInterface()
-// 	if *t.Truth() == "true" {
-// 		*t.Truth() = "false"
-// 		return true
-// 	} else if *t.Truth() == "false" {
-// 		*t.Truth() = ""
-// 		return true
-// 	}
-// 	return false
-// }
-
 type Implication struct {
 	// Symbolic letter
 	Letter string
@@ -280,38 +257,19 @@ func (i Implication) ToString() string {
 // Applies the modus ponens transformation to an implication, if the antecedent
 // has a known truth value.
 func ModusPonens(stat_a *Statement, stat_b *Statement, imp *Implication) bool {
+	fmt.Println("stat_a.TruthVal:", stat_a.TruthVal, "-- stat_b.TruthVal:", stat_b.TruthVal)
 	if stat_a.TruthVal == "true" || stat_a.TruthVal == "false" {
-		if *imp == ImpFrom(imp.Letter, imp.TruthVal, stat_a, stat_b) {
+		// fmt.Println(imp)
+		// fmt.Println(ImpFrom(imp.Letter, imp.TruthVal, stat_a, stat_b))
+		// fmt.Println(*imp == ImpFrom(imp.Letter, imp.TruthVal, stat_a, stat_b))
+		if imp.Ant.Equals(*stat_a) {
+			// if *imp == ImpFrom(imp.Letter, imp.TruthVal, stat_a, stat_b) {
 			stat_b.TruthVal = stat_a.TruthVal
 			return true
 		}
 	}
-	//  else {
-	// 	fmt.Println("Modus Ponens does not apply in this case.")
-	//    return false
-	// }
 	return false
 }
-
-// func ModusPonensAnd(stat_and *Statement, stat_b *Statement, imp *Implication) bool {
-//   stat_split, ok_split := stat_and.SplitAnd()
-//   if ok_split {
-//     stat_a1 := stat_split[0]
-//     stat_a2 := stat_split[1]
-//     imp_stat_split, ok_split := imp.Ant.Letter.SplitAnd()
-//     if ok_split {
-//       imp_stat_a1
-//     }
-//   }
-// 	if !stat_a1.IsEmpty() && !stat_a2.IsEmpty() {
-// 			if imp_a_split == stat_a_split {
-// 			}
-// 			stat_b.TruthVal = stat_a.TruthVal
-//
-// 			return true
-// 		}
-// 	return false
-// }
 
 func ContraPositive(imp *Implication) bool {
 	hold_ant := imp.Ant

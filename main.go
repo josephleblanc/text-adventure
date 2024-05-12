@@ -5,6 +5,7 @@ import (
 	"text-adventure/myprint"
 	"text-adventure/mytypes"
 	"text-adventure/puzzles"
+	"text-adventure/puzzles/rooms"
 	"text-adventure/utils"
 )
 
@@ -23,7 +24,7 @@ func main() {
 	}
 	world_map := mytypes.InitMap()
 
-	puzzles.CrossroadsPuzzle(&player)
+	rooms.CrossroadsPuzzle(&player)
 
 	// puzzles.ModusPonensTutorial(&player)
 

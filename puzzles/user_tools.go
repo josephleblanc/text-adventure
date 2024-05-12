@@ -195,11 +195,13 @@ func CheckDetails(scanner *bufio.Scanner) {
 
 func HandleModusPonens(puz *Puzzle, input_stat string, input_imp string) []string {
 	// Check if user chosen letters match puzzle letters for statement and implication
+	// fmt.Println(strings.ToUpper(input_stat))
 	stat_a, ok_stat_a := puz.Stats[strings.ToUpper(input_stat)]
 	imp, ok_imp := puz.Imps[strings.ToUpper(input_imp)]
 	stat_b := imp.Con
 	_, ok_stat_b := puz.Stats[stat_b.Letter]
 
+	fmt.Println(ok_stat_a, ok_imp, ok_stat_b)
 	if ok_stat_a && ok_imp && ok_stat_b {
 		// Apply modus ponens rule
 		is_applied := ModusPonens(&stat_a, &stat_b, &imp)
@@ -294,6 +296,7 @@ func HandleAnd(puz *Puzzle, stat_a string, stat_b string) []string {
 				Letter:   puz_stat_a.Letter + "&" + puz_stat_b.Letter,
 				TruthVal: puz_stat_a.TruthAndStat(&puz_stat_b),
 				Object:   puz_stat_a.Letter + " and " + puz_stat_b.Letter,
+				IsHidden: false,
 			}
 			// Insert new "and" statement to puzzle
 			puz.Stats[strings.ToUpper(new_and_stat.Letter)] = new_and_stat
