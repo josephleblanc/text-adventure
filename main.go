@@ -24,7 +24,7 @@ func main() {
 	}
 	world_map := mytypes.InitMap()
 
-	rooms.CrossroadsPuzzle(&player)
+	rooms.DuckPuzzle(&player)
 
 	// puzzles.ModusPonensTutorial(&player)
 

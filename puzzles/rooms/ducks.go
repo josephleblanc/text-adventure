@@ -21,7 +21,7 @@ import (
 //	No gray ducks in this village wear lace collars.
 //
 // TODO: Add a puzzle problem statement to each puzzle
-func duck_puzzle(player *mytypes.Player) {
+func DuckPuzzle(player *mytypes.Player) {
 	stat_a := Statement{
 		Letter:   "A",
 		IsNeg:    false,
@@ -61,7 +61,7 @@ func duck_puzzle(player *mytypes.Player) {
 
 	stat_e := Statement{
 		Letter:   "E",
-		IsNeg:    true,
+		IsNeg:    false,
 		Subject:  "No gray ducks in this village",
 		Relation: "wear",
 		Object:   "lace collars",
@@ -119,8 +119,6 @@ func duck_puzzle(player *mytypes.Player) {
 	fmt.Println(stat_d.ToString())
 	fmt.Println(stat_e.ToString())
 
-	// TODO: Add text introducing the "and" ability
-	player.HasAbility["and"] = true
 	for puz.Stats["E"].TruthVal != "true" {
 		// ^^ for loop contains win condition for puzzle
 		PromptTool(&puz, &backup, player)

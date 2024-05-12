@@ -136,9 +136,10 @@ func CrossroadsPuzzle(player *mytypes.Player) {
 	fmt.Println(stat_d.ToString())
 	fmt.Println(stat_e.ToString())
 
-	// TODO: Add text introducing the "and" ability
+	// TODO: Add help information for the "and" tool
 	myprint.PrintSlow("Just as the puzzle comes into being, and you wonder how you can solve it with Aristotle's tools, you hear his disembodied voice sound through the room:")
 	myprint.PrintSlow("\tAristotle: Oh! I almost forgot, there is one more tool you will need - the \"and\" tool. You may use it by saying \"and a c\". I would explain more, but I'm sure you'll figure it out!")
+	myprint.PrintSlow("\tAristotle: The main thing to remember with \"and\" statements is that you can use them with modus ponens by thinking \"mp a&c f\", once you have constructed them.")
 	player.HasAbility["and"] = true
 	for puz.Stats["E"].TruthVal != "true" {
 		// ^^ for loop contains win condition for puzzle
