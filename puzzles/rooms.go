@@ -89,16 +89,18 @@ func CrossroadsPuzzle(player *mytypes.Player) {
 		IsNeg:    false,
 		Subject:  "",
 		Relation: "",
-		Object:   "",
+		Object:   "A and C",
 		TruthVal: "unknown",
+		IsHidden: true,
 	}
 	stat_b_d := Statement{
 		Letter:   "B&D",
 		IsNeg:    false,
 		Subject:  "",
 		Relation: "",
-		Object:   "",
+		Object:   "B and D",
 		TruthVal: "unknown",
+		IsHidden: true,
 	}
 
 	stat_d_copy := stat_d
@@ -115,8 +117,8 @@ func CrossroadsPuzzle(player *mytypes.Player) {
 	stats["D"] = stat_d
 	stats["E"] = stat_e
 
-	stats["A&C"] = stat_d
-	stats["D&E"] = stat_e
+	stats["A&C"] = stat_a_c
+	stats["D&E"] = stat_b_d
 
 	imps["F"] = imp_f
 	imps["G"] = imp_g
@@ -134,13 +136,14 @@ func CrossroadsPuzzle(player *mytypes.Player) {
 	fmt.Println(stat_e.ToString())
 
 	// TODO: Add text introducing the "and" ability
+	myprint.PrintSlow("Just as the puzzle comes into being, and you wonder how you can solve it with Aristotle's tools, you hear his disembodied voice sound through the room:")
+	myprint.PrintSlow("\tAristotle: Oh! I almost forgot, there is one more tool you will need - the \"and\" tool. You may use it by saying \"and a c\". I would explain more, but I'm sure you'll figure it out!")
 	player.HasAbility["and"] = true
 	for puz.Stats["E"].TruthVal != "true" {
 		// ^^ for loop contains win condition for puzzle
 		PromptTool(&puz, &backup, player)
 	}
-	// TODO: Add flavor text here
-	myprint.PrintSlow("\t<Say something at the end of the puzzle>")
+	myprint.PrintSlow("\tHaving solved the puzzle, you are free to \"look\" around the room or \"go\" in a direction.")
 }
 
 // 15.
@@ -207,6 +210,7 @@ func duck_puzzle(player *mytypes.Player) {
 		Relation: "",
 		Object:   "",
 		TruthVal: "unknown",
+		IsHidden: true,
 	}
 	stat_b_d := Statement{
 		Letter:   "B&D",
@@ -215,6 +219,7 @@ func duck_puzzle(player *mytypes.Player) {
 		Relation: "",
 		Object:   "",
 		TruthVal: "unknown",
+		IsHidden: true,
 	}
 
 	stat_d_copy := stat_d

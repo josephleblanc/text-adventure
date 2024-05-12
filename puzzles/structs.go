@@ -2,7 +2,9 @@ package puzzles
 
 import (
 	"fmt"
+	"sort"
 	"strings"
+	"text-adventure/utils"
 )
 
 type Statement struct {
@@ -94,12 +96,33 @@ type Puzzle struct {
 	Imps  map[string]Implication
 }
 
+// Print a sorted list of the puzzle elements (Statements, Implications) in
+// their current state. The puzzle elements are sorted by their symbol, e.g.
+// A, B, C, C&A, etc.
 func (p *Puzzle) Status() {
+	// Sort and print statements
+	stat_letters := make([]string, 0, len(p.Stats))
 	for _, stat := range p.Stats {
-		fmt.Println(stat.ToString())
+		if !stat.IsHidden {
+			stat_letters = append(stat_letters, stat.Letter)
+		}
 	}
+	sort.Strings(stat_letters)
+	for _, sorted_letter := range stat_letters {
+		fmt.Println(p.Stats[sorted_letter].IsHidden)
+		// if !p.Stats[sorted_letter].IsHidden {
+		fmt.Println(p.Stats[sorted_letter].ToString())
+		// }
+	}
+
+	// Sort and print statements
+	imp_letters := make([]string, 0, len(p.Imps))
 	for _, imp := range p.Imps {
-		fmt.Println(imp.ToString())
+		imp_letters = append(imp_letters, imp.Letter)
+	}
+	sort.Strings(imp_letters)
+	for _, sorted_letter := range imp_letters {
+		fmt.Println(p.Imps[sorted_letter].ToString())
 	}
 }
 
@@ -137,7 +160,12 @@ func (s *Statement) Negate() {
 	}
 }
 
-func (s *Statement) ToString() string {
+// Returns a string of a human-readable version of the implication.
+// This is not a pointer because it does not need to modify or change the value.
+// More on non-addressable pointers here:
+//
+//	https://www.sobyte.net/post/2022-01/not-addressable-in-golang/
+func (s Statement) ToString() string {
 	truth_string := "?:    "
 	switch s.TruthVal {
 	case "true":
@@ -211,7 +239,12 @@ func ImpFrom(letter string, truth_val string, ant *Statement, con *Statement) Im
 	}
 }
 
-func (i *Implication) ToString() string {
+// Returns a string of a human-readable version of the implication.
+// This is not a pointer because it does not need to modify or change the value.
+// More on non-addressable pointers here:
+//
+//	https://www.sobyte.net/post/2022-01/not-addressable-in-golang/
+func (i Implication) ToString() string {
 	ant_neg_symb := ""
 	con_neg_symb := ""
 	if i.Ant.IsNeg {
@@ -232,15 +265,16 @@ func (i *Implication) ToString() string {
 		symbols,
 		truth_string,
 		"If",
-		i.Ant.Subject,
+		strings.ToLower(i.Ant.Subject),
 		i.Ant.NegString(),
 		i.Ant.Object + ",",
 		"then",
-		i.Con.Subject,
+		strings.ToLower(i.Con.Subject),
 		i.Con.NegString(),
 		i.Con.Object + ".",
 	}
-	return strings.Join(all_strings, " ")
+	non_empty_strings := utils.RemoveEmpty(all_strings)
+	return strings.Join(non_empty_strings, " ")
 }
 
 // Applies the modus ponens transformation to an implication, if the antecedent

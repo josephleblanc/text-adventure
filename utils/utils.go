@@ -259,3 +259,14 @@ func Ellipsis() {
 		time.Sleep(500 * time.Millisecond)
 	}
 }
+
+// Remove empty strings in array by copying any non-empty strings to new array.
+func RemoveEmpty(s_array []string) []string {
+	new_array := make([]string, 0)
+	for _, s := range s_array {
+		if s != "" {
+			new_array = append(new_array, s)
+		}
+	}
+	return new_array
+}

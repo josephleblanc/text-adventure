@@ -293,7 +293,7 @@ func HandleAnd(puz *Puzzle, stat_a string, stat_b string) []string {
 			new_and_stat := Statement{
 				Letter:   puz_stat_a.Letter + "&" + puz_stat_b.Letter,
 				TruthVal: puz_stat_a.TruthAndStat(&puz_stat_b),
-				// Object:   puz_stat_a.Letter + "&" + puz_stat_b.Letter,
+				Object:   puz_stat_a.Letter + " and " + puz_stat_b.Letter,
 			}
 			// Insert new "and" statement to puzzle
 			puz.Stats[strings.ToUpper(new_and_stat.Letter)] = new_and_stat
