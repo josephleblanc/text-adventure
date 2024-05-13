@@ -213,7 +213,7 @@ func FinalPuzzle(player *mytypes.Player) {
 
 	puz.Status()
 
-	myprint.PrintSlow("Prove that this is not an easy puzzle to complete your adventure in the dream!")
+	myprint.PrintSlow("\tProve that this is not an easy puzzle to complete your adventure in the dream!")
 	for puz.Stats["I"].TruthVal != "true" {
 		// ^^ for loop contains win condition for puzzle
 		puzzles.PromptTool(&puz, &backup, player)

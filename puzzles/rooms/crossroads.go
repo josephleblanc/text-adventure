@@ -140,7 +140,7 @@ func CrossroadsPuzzle(player *mytypes.Player) {
 	puz.Status()
 	fmt.Println()
 	// TODO: Add help information for the "and" tool
-	myprint.PrintSlow("Just as the puzzle comes into being, and you wonder how you can solve it with Aristotle's tools, you hear his disembodied voice sound through the room:")
+	myprint.PrintSlow("\tJust as the puzzle comes into being, and you wonder how you can solve it with Aristotle's tools, you hear his disembodied voice sound through the room:")
 	myprint.PrintSlow("\tAristotle: Oh! I almost forgot, there is one more tool you will need - the \"and\" tool. You may use it by saying \"and a c\". I would explain more, but I'm sure you'll figure it out!")
 	myprint.PrintSlow("\tAristotle: The main thing to remember with \"and\" statements is that you can use them with modus ponens by thinking \"mp a&c f\", once you have constructed them.")
 	player.HasAbility["and"] = true
@@ -148,7 +148,5 @@ func CrossroadsPuzzle(player *mytypes.Player) {
 		// ^^ for loop contains win condition for puzzle
 		puzzles.PromptTool(&puz, &backup, player)
 	}
-	myprint.PrintSlow("As the final logical deduction falls into place, a faint shimmer dances across the parchment, drawing your attention. With a soft rustle, the parchment begins to unfurl, revealing a glint of metal nestled within its folds. As you reach out to investigate, your fingers brush against a small, intricately crafted key, its surface adorned with ornate patterns that seem to dance in the light. The key feels weighty in your palm, its significance tangible as you realize its potential to unlock new pathways and hidden secrets within the realm of the Land of Rationality. With a sense of triumph and anticipation, you pocket the key, knowing that it will serve as a tangible symbol of your triumph over the puzzles that once confounded you.")
-	myprint.PrintSlow("You now have the key from this room, and are one step closer to unlocking the final door.")
 	myprint.PrintSlow("\tHaving solved the puzzle, you are free to \"look\" around the room or \"go\" in a direction.")
 }

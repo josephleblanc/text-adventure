@@ -125,7 +125,7 @@ func TapestryPuzzle(player *mytypes.Player) {
 		// ^^ for loop contains win condition for puzzle
 		puzzles.PromptTool(&puz, &backup, player)
 	}
-	// TODO: Add flavor text here
 	myprint.PrintSlow("\tAs the puzzle is solved, a key materializes amidst the echoes in the room. It glows softly, its intricate design shimmering with significance. With a sense of triumph, you reach out and grasp it, feeling empowered to unlock new paths in the Land of Rationality.")
 	myprint.PrintSlow("\tYou have taken one more step on the path to unlocking the final door... who knows what lays beyond?")
+	player.Inventory["tapestry_key"] = true
 }

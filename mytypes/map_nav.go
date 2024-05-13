@@ -8,6 +8,13 @@ func (m *Map) Travel(p *Player, d string) {
 	room, exists := m.rooms[p.InRoom].GoesTo[d]
 	if exists && room.is_locked {
 		myprint.PrintSlow(room.locked_description)
+		_, room_name := m.PlayerRoom(p)
+		if room_name == "Crossroads" && len(p.Inventory) == 2 {
+			myprint.PrintSlow("With both keys clutched tightly in your hands, you approach the door to the north, its surface etched with cryptic symbols that seem to shift and writhe before your eyes. The locks themselves appear as twisted knots of metal, defying comprehension with their convoluted mechanisms. ")
+			myprint.PrintSlow("As you fumble with the keys, the very air seems to thicken with uncertainty, as if reality itself is playing tricks on your senses. Each turn of the keys sends a jolt of disorientation coursing through your mind, as if the room is conspiring to confound your every move.")
+			myprint.PrintSlow("With a final twist, the locks finally yield, but the door remains closed, its surface rippling like a mirage. For a moment, you question whether you've truly unlocked it or merely fallen deeper into the labyrinth of confusion. With a sense of trepidation, you push against the door, unsure of what lies on the other side, but determined to press forward regardless.")
+			m.UnlockRoom("Final")
+		}
 		return
 	}
 	if exists {
@@ -59,6 +66,15 @@ func (m *Map) CompletePuzzle(p *Player) {
 		new_room := old_room
 		new_room.PuzzleComplete = true
 		m.rooms[p.InRoom] = new_room
+	}
+}
+
+func (m *Map) UnlockRoom(room_name string) {
+	old_room, exists := m.rooms[room_name]
+	if exists {
+		new_room := old_room
+		new_room.is_locked = false
+		m.rooms[room_name] = new_room
 	}
 }
 

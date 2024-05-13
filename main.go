@@ -21,10 +21,9 @@ func main() {
 	player := mytypes.Player{
 		HasAbility: make(map[string]bool),
 		InRoom:     "Start",
+		Inventory:  make(map[string]bool),
 	}
 	world_map := mytypes.InitMap()
-
-	rooms.DuckPuzzle(&player)
 
 	printTitle()
 
