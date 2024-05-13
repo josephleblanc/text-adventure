@@ -24,6 +24,8 @@ func main() {
 	}
 	world_map := mytypes.InitMap()
 
+	rooms.DuckPuzzle(&player)
+
 	printTitle()
 
 	utils.HelpInfo()
@@ -57,13 +59,14 @@ func main() {
 	myprint.PrintSlow("\tAristotle: You only need two more tools to solve all the puzzles ahead of you, Negation and Contrapositive. Negation allows you to invert a statement along with its truth value, while Contrapositive may be applied to an implication, such that the true statement \"If A then B\" becomes the true statement \"If not B then not A\"...")
 	myprint.PrintSlow("\tAristotle: That may sound complicated, but I'm confident you'll pick up the trick soon enough, given the right motivation. Here, I'll manifest a some rain to encourage you. If you don't want to be rained on, just prove that it could not be raining - there can't be rain without clouds after all.")
 	myprint.PrintSlow("\tJust as Aristotle finishes speaking, you begin to feel drops of water falling on your skin. There is indeed rain falling on you! This is rather bewildering, as the rain is not falling from clouds but through the ceiling above.")
+	myprint.PrintSlow("\tAristotle: Now, to use contrapositive, just think \"contrapositive c\" or \"cp c\", and to use negation, just think \"negation b\" or \"neg b\" ")
 	puzzles.ContraPositiveTutorial(&player)
 
 	myprint.PrintSlow("\tAristotle: Well done!")
 	fmt.Println()
 	// Conclude Aristotle scene
 	// TODO: Add win condition in the dialogue below:
-	myprint.PrintSlow("\tAristotle: Now that you have your logic tools, I can go back to thinking and leave all the work to you, my dear student. You may \"go\" wherever you wish in the four cardinal directions (north, west, south, east), just be sure to \"look\" and see if there is a passage there. Now, go clear the conundrums, and once you prove <win conition here>, you will be returned to your waking world.")
+	myprint.PrintSlow("\tAristotle: Now that you have your logic tools, I can go back to thinking and leave all the work to you, my dear student. You may \"go\" wherever you wish in the four cardinal directions (north, west, south, east), just be sure to \"look\" and see if there is a passage there. Now, go clear the conundrums, and once you complete the puzzle beyond the locked door in the next room, you will be returned to your waking world.")
 
 	final_complete := false
 	for !final_complete {

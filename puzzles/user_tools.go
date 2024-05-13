@@ -75,7 +75,9 @@ func PromptTool(puz *Puzzle, backup *Puzzle, player *mytypes.Player) {
 
 	// Check for user commands not directly related to the puzzle
 	utils.CheckQuit(scanner)
-	utils.CheckHelp(scanner)
+	if utils.CheckHelp(scanner) {
+		PuzzleHelp()
+	}
 	CheckOps(scanner, player)
 	CheckDetails(scanner)
 	CheckReset(puz, backup, scanner)
@@ -100,7 +102,7 @@ func PromptTool(puz *Puzzle, backup *Puzzle, player *mytypes.Player) {
 			fmt.Println(v)
 		}
 		// check for contrapositive command
-	} else if len(split) == 2 && (split[0] == "cp" || split[1] == "contra-positive") {
+	} else if len(split) == 2 && (split[0] == "cp" || split[1] == "contrapositive") {
 		vals := HandleContraPositive(puz, split[1])
 		for _, v := range vals {
 			fmt.Println(v)
@@ -179,6 +181,8 @@ func CheckDetails(scanner *bufio.Scanner) {
 				utils.CenterText("Modus Ponens")
 				fmt.Println("Modus Ponens may be used by entering \"modus ponens\" or \"mp\" followed by a letter indicating a statement and a letter indicating an implication.\nFor example:")
 				fmt.Println(modus_ponens_example + "\n")
+				fmt.Println("If you have constructed a statement with the \"and\" tool, you may use the new statement with modus ponens by typing:")
+				fmt.Println("\tand a&c f")
 			case "cp", "contrapositive":
 				utils.CenterText("Contrapositive")
 				fmt.Println("Contrapositive may be used by entering \"cp\" or \"contrapositive\" followed by a letter indicating an implication.\nFor example:")

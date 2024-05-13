@@ -125,6 +125,7 @@ func (p *Puzzle) Status() {
 	for _, sorted_letter := range imp_letters {
 		fmt.Println(p.Imps[sorted_letter].ToString())
 	}
+	fmt.Println()
 }
 
 func (p *Puzzle) InsertAnd(stat_a *Statement, stat_b *Statement) {

@@ -2,7 +2,7 @@ package rooms
 
 import (
 	// "text-adventure/myprint"
-	"fmt"
+
 	"text-adventure/myprint"
 	"text-adventure/mytypes"
 	"text-adventure/puzzles"
@@ -75,7 +75,7 @@ func DuckPuzzle(player *mytypes.Player) {
 		Relation: "",
 		Object:   "A and C (test)",
 		TruthVal: "unknown",
-		IsHidden: true,
+		// IsHidden: true,
 	}
 	stat_b_d := puzzles.Statement{
 		Letter:   "B&D",
@@ -84,11 +84,11 @@ func DuckPuzzle(player *mytypes.Player) {
 		Relation: "",
 		Object:   "B and D (test)",
 		TruthVal: "unknown",
-		IsHidden: true,
+		// IsHidden: true,
 	}
 
 	stat_d_copy := stat_d
-	stat_d_copy.Negate()
+	// stat_d_copy.Negate()
 	imp_f := puzzles.ImpFrom("F", "true", &stat_a_c, &stat_d_copy)
 	imp_g := puzzles.ImpFrom("G", "true", &stat_b_d, &stat_e)
 
@@ -100,9 +100,9 @@ func DuckPuzzle(player *mytypes.Player) {
 	stats["C"] = stat_c
 	stats["D"] = stat_d
 	stats["E"] = stat_e
-
-	stats["A&C"] = stat_d
-	stats["D&E"] = stat_e
+	//
+	// stats["A&C"] = stat_d
+	// stats["D&E"] = stat_e
 
 	imps["F"] = imp_f
 	imps["G"] = imp_g
@@ -113,46 +113,14 @@ func DuckPuzzle(player *mytypes.Player) {
 	}
 	backup := puz
 
-	fmt.Println(stat_a.ToString())
-	fmt.Println(stat_b.ToString())
-	fmt.Println(stat_c.ToString())
-	fmt.Println(stat_d.ToString())
-	fmt.Println(stat_e.ToString())
+	puz.Status()
 
 	for puz.Stats["E"].TruthVal != "true" {
 		// ^^ for loop contains win condition for puzzle
 		puzzles.PromptTool(&puz, &backup, player)
 	}
 	// TODO: Add flavor text here
-	myprint.PrintSlow("\t<Say something at the end of the puzzle>")
-}
-
-// 19.
-//
-//	(1) No name in this list is unsuitable for the hero of a romance;
-//	(2) Names beginning with a vowel are always melodious;
-//	(3) No name is suitable for the hero of a romance, if it begins with a consonant.
-//
-// Univ. “names”; a = beginning with a vowel; b = in this list; c = melodious; d = suitable for the hero of a romance.
-//
-// Solution:
-//
-//	No name in this list is unmelodious.
-func tapestry_puzzle(player *mytypes.Player) {
-}
-
-// 46.
-//
-//	(1) When I work a Logic-example without grumbling, you may be sure it is one that I can understand;
-//	(2) These Soriteses are not arranged in regular order, like the examples I am used to;
-//	(3) No easy example ever make my head ache;
-//	(4) I ca’n’t understand examples that are not arranged in regular order, like those I am used to;
-//	(5) I never grumble at an example, unless it gives me a headache.
-//
-// Univ. “Logic-examples worked by me”; a = arranged in regular order, like the examples I am used to; b = easy; c = grumbled at by me; d = making my head ache; e = these Soriteses; h = understood by me.
-//
-// Solution:
-//
-//	These Sorites-examples are difficult.
-func final_puzzle(player *mytypes.Player) {
+	myprint.PrintSlow("As the final logical deduction falls into place, a faint shimmer dances across the parchment, drawing your attention. With a soft rustle, the parchment begins to unfurl, revealing a glint of metal nestled within its folds. As you reach out to investigate, your fingers brush against a small, intricately crafted key, its surface adorned with ornate patterns that seem to dance in the light. The key feels weighty in your palm, its significance tangible as you realize its potential to unlock new pathways and hidden secrets within the realm of the Land of Rationality. With a sense of triumph and anticipation, you pocket the key, knowing that it will serve as a tangible symbol of your triumph over the puzzles that once confounded you.")
+	myprint.PrintSlow("You now have the key from this room, and are one step closer to unlocking the final door.")
+	myprint.PrintSlow("\tHaving solved the puzzle, you are free to \"look\" around the room or \"go\" in a direction.")
 }

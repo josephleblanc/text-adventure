@@ -46,60 +46,25 @@ type UserInput struct {
 	FieldName string
 }
 
-// Interactable objects, e.g. light switch
-type Object struct {
-	name     string
-	desc     string
-	interact bool
-}
-
-type Npc struct {
-	has_met     bool
-	has_puzzle  bool
-	has_truth   bool
-	has_ability bool
-	intro       string
-	phrases     map[string]string
-}
-
-func (npc Npc) Dialogue(user_says string) {
-	// todo
-}
-
 type Player struct {
-	name   string
-	truths []Statement
+	name string
 	// index of has_ability is Ability.name
 	HasAbility     map[string]bool
 	tutorial_done  bool
 	aristotle_done bool
 	in_challenge   bool
-	can_move       bool
+	// can_move       bool
 	// index of has_def is Definition.name
-	has_defn map[string]bool
-	// inventory []Item
-	InRoom string
-}
-
-// Items the user can pick up and keep
-type Item struct {
-	name string
-	desc string
-	uses []string
+	has_defn  map[string]bool
+	InRoom    string
+	Inventory map[string]bool
 }
 
 // Abilities the user gains like 'contrapositive',
 // or 'sum_convergent'
 type Ability struct {
-	name   string
-	desc   string
-	action func(stat Statement)
-}
-
-// Logical statements used in puzzles
-type Statement struct {
-	is_neg bool
-	claim  string
+	name string
+	desc string
 }
 
 // Useful definitions for the user to know when solving puzzles,

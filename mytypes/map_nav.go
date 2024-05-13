@@ -1,7 +1,6 @@
 package mytypes
 
 import (
-	"fmt"
 	"text-adventure/myprint"
 )
 
@@ -13,9 +12,7 @@ func (m *Map) Travel(p *Player, d string) {
 	}
 	if exists {
 		move_descr, descr_exists := m.rooms[p.InRoom].MoveDescription[d]
-		fmt.Println("p.InRoom before: ", p.InRoom)
 		p.InRoom = room.Name
-		fmt.Println("p.InRoom after: ", p.InRoom)
 		if !room.is_explored {
 			if descr_exists {
 				myprint.PrintSlow(move_descr)

@@ -211,11 +211,6 @@ func FinalPuzzle(player *mytypes.Player) {
 	}
 	backup := puz
 
-	// fmt.Println(stat_a.ToString())
-	// fmt.Println(stat_b.ToString())
-	// fmt.Println(stat_c.ToString())
-	// fmt.Println(stat_d.ToString())
-	// fmt.Println(stat_e.ToString())
 	puz.Status()
 
 	// TODO: put flavor text here
