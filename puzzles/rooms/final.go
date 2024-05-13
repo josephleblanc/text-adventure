@@ -5,7 +5,7 @@ import (
 
 	"text-adventure/myprint"
 	"text-adventure/mytypes"
-	. "text-adventure/puzzles"
+	"text-adventure/puzzles"
 )
 
 // 46.
@@ -24,7 +24,7 @@ import (
 
 // TODO: Add a puzzle problem statement to each puzzle
 func FinalPuzzle(player *mytypes.Player) {
-	stat_a := Statement{
+	stat_a := puzzles.Statement{
 		Letter:   "A",
 		IsNeg:    false,
 		Subject:  "When I work a Logic-example without grumbling, you may be sure it",
@@ -33,7 +33,7 @@ func FinalPuzzle(player *mytypes.Player) {
 		TruthVal: "true",
 	}
 
-	stat_b := Statement{
+	stat_b := puzzles.Statement{
 		Letter:   "B",
 		IsNeg:    false,
 		Subject:  "These Soriteses",
@@ -42,7 +42,7 @@ func FinalPuzzle(player *mytypes.Player) {
 		TruthVal: "true",
 	}
 
-	stat_c := Statement{
+	stat_c := puzzles.Statement{
 		Letter:  "C",
 		IsNeg:   false,
 		Subject: "No easy example ever",
@@ -52,7 +52,7 @@ func FinalPuzzle(player *mytypes.Player) {
 		TruthVal: "true",
 	}
 
-	stat_d := Statement{
+	stat_d := puzzles.Statement{
 		Letter:   "D",
 		IsNeg:    true,
 		Subject:  "I can't understand examples that",
@@ -61,7 +61,7 @@ func FinalPuzzle(player *mytypes.Player) {
 		TruthVal: "false",
 	}
 
-	stat_e := Statement{
+	stat_e := puzzles.Statement{
 		Letter: "E",
 		// TODO: Fix the negation for this one, as it comes out pretty awkwardly.
 		IsNeg:    false,
@@ -71,7 +71,7 @@ func FinalPuzzle(player *mytypes.Player) {
 		TruthVal: "true",
 	}
 
-	stat_f := Statement{
+	stat_f := puzzles.Statement{
 		Letter:   "F",
 		IsNeg:    true,
 		Subject:  "I",
@@ -81,7 +81,7 @@ func FinalPuzzle(player *mytypes.Player) {
 		IsHidden: false,
 	}
 
-	stat_g := Statement{
+	stat_g := puzzles.Statement{
 		Letter:   "G",
 		IsNeg:    false,
 		Subject:  "You may be sure it is a logic puzzle I",
@@ -98,7 +98,7 @@ func FinalPuzzle(player *mytypes.Player) {
 	stat_g_copy_fg := stat_g
 	stat_g_copy_fg.TruthVal = "true"
 	// TODO: Test this
-	imp_w := ImpFrom("W", "true", &stat_f_copy_fg, &stat_g_copy_fg)
+	imp_w := puzzles.ImpFrom("W", "true", &stat_f_copy_fg, &stat_g_copy_fg)
 	// imp_fg.Con.TruthVal = "true"
 	// imp_fg.Con.IsNeg = false
 
@@ -109,7 +109,7 @@ func FinalPuzzle(player *mytypes.Player) {
 	//	(D) I can’t understand logic puzzles that are not arranged in regular order,
 	//	    like those I am used to;
 	//	--> !G: I can not understand this puzzle
-	stat_bd := Statement{
+	stat_bd := puzzles.Statement{
 		Letter:   "B&D",
 		IsNeg:    false,
 		Subject:  "",
@@ -126,9 +126,9 @@ func FinalPuzzle(player *mytypes.Player) {
 	stat_g_copy.IsNeg = true
 	stat_g_copy.TruthVal = "true"
 	// TODO: Test this
-	imp_x := ImpFrom("X", "true", &stat_bd_copy, &stat_g_copy)
+	imp_x := puzzles.ImpFrom("X", "true", &stat_bd_copy, &stat_g_copy)
 
-	stat_h := Statement{
+	stat_h := puzzles.Statement{
 		Letter:   "H",
 		IsNeg:    false,
 		Subject:  "My head",
@@ -137,7 +137,7 @@ func FinalPuzzle(player *mytypes.Player) {
 		TruthVal: "unknown",
 		IsHidden: false,
 	}
-	stat_ef := Statement{
+	stat_ef := puzzles.Statement{
 		Letter:   "E&F",
 		IsNeg:    false,
 		Subject:  "",
@@ -154,9 +154,9 @@ func FinalPuzzle(player *mytypes.Player) {
 	stat_h_copy := stat_h
 	stat_h_copy.TruthVal = "true"
 	// TODO: Test this
-	imp_y := ImpFrom("Y", "true", &stat_ef_copy, &stat_h_copy)
+	imp_y := puzzles.ImpFrom("Y", "true", &stat_ef_copy, &stat_h_copy)
 
-	stat_ch := Statement{
+	stat_ch := puzzles.Statement{
 		Letter:   "C&H",
 		IsNeg:    false,
 		Subject:  "",
@@ -166,7 +166,7 @@ func FinalPuzzle(player *mytypes.Player) {
 		IsHidden: true,
 	}
 
-	stat_i := Statement{
+	stat_i := puzzles.Statement{
 		Letter:   "I",
 		IsNeg:    true,
 		Subject:  "This puzzle",
@@ -181,10 +181,10 @@ func FinalPuzzle(player *mytypes.Player) {
 	stat_i_copy := stat_i
 	stat_i_copy.TruthVal = "true"
 	// TODO: Test this
-	imp_z := ImpFrom("Z", "true", &stat_ch_copy, &stat_i_copy)
+	imp_z := puzzles.ImpFrom("Z", "true", &stat_ch_copy, &stat_i_copy)
 
-	stats := make(map[string]Statement)
-	imps := make(map[string]Implication)
+	stats := make(map[string]puzzles.Statement)
+	imps := make(map[string]puzzles.Implication)
 
 	stats["A"] = stat_a
 	stats["B"] = stat_b
@@ -205,7 +205,7 @@ func FinalPuzzle(player *mytypes.Player) {
 	imps["Y"] = imp_y
 	imps["Z"] = imp_z
 
-	puz := Puzzle{
+	puz := puzzles.Puzzle{
 		Stats: stats,
 		Imps:  imps,
 	}
@@ -222,7 +222,7 @@ func FinalPuzzle(player *mytypes.Player) {
 	myprint.PrintSlow("Flavor message about starting the puzzle")
 	for puz.Stats["I"].TruthVal != "true" {
 		// ^^ for loop contains win condition for puzzle
-		PromptTool(&puz, &backup, player)
+		puzzles.PromptTool(&puz, &backup, player)
 	}
 	// TODO: Add flavor text here
 	myprint.PrintSlow("\t<Say something at the end of the puzzle>")

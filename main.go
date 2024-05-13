@@ -24,14 +24,6 @@ func main() {
 	}
 	world_map := mytypes.InitMap()
 
-	rooms.FinalPuzzle(&player)
-
-	// puzzles.ModusPonensTutorial(&player)
-
-	// player.HasAbility["mp"] = true
-	// player.HasAbility["cp"] = true
-	// puzzles.ContraPositiveTutorial(&player)
-
 	printTitle()
 
 	utils.HelpInfo()
@@ -53,7 +45,6 @@ func main() {
 	myprint.PrintSlow("\t" + text_map["aristotle4"])
 	myprint.PrintSlow("\t" + text_map["aristotle5"])
 	myprint.PrintSlow("\t" + text_map["aristotle6"])
-	fmt.Println()
 
 	// Tutorial: modus ponens
 	puzzles.ModusPonensTutorial(&player)
@@ -73,7 +64,23 @@ func main() {
 	// Conclude Aristotle scene
 	// TODO: Add win condition in the dialogue below:
 	myprint.PrintSlow("\tAristotle: Now that you have your logic tools, I can go back to thinking and leave all the work to you, my dear student. You may \"go\" wherever you wish in the four cardinal directions (north, west, south, east), just be sure to \"look\" and see if there is a passage there. Now, go clear the conundrums, and once you prove <win conition here>, you will be returned to your waking world.")
-	for {
+
+	final_complete := false
+	for !final_complete {
 		utils.PromptNav(&player, &world_map)
+		if !world_map.IsPuzzleComplete(&player) {
+			switch _, room_name := world_map.PlayerRoom(&player); room_name {
+			case "Crossroads":
+				rooms.CrossroadsPuzzle(&player)
+			case "Duck":
+				rooms.DuckPuzzle(&player)
+			case "Tapestry":
+				rooms.TapestryPuzzle(&player)
+			case "Final":
+				rooms.FinalPuzzle(&player)
+				final_complete = true
+			}
+			world_map.CompletePuzzle(&player)
+		}
 	}
 }

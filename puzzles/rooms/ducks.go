@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"text-adventure/myprint"
 	"text-adventure/mytypes"
-	. "text-adventure/puzzles"
+	"text-adventure/puzzles"
 )
 
 // 15.
@@ -22,7 +22,7 @@ import (
 //
 // TODO: Add a puzzle problem statement to each puzzle
 func DuckPuzzle(player *mytypes.Player) {
-	stat_a := Statement{
+	stat_a := puzzles.Statement{
 		Letter:   "A",
 		IsNeg:    false,
 		Subject:  "All ducks in this village, that",
@@ -31,7 +31,7 @@ func DuckPuzzle(player *mytypes.Player) {
 		TruthVal: "true",
 	}
 
-	stat_b := Statement{
+	stat_b := puzzles.Statement{
 		Letter:   "B",
 		IsNeg:    false,
 		Subject:  "Ducks in this village never",
@@ -40,7 +40,7 @@ func DuckPuzzle(player *mytypes.Player) {
 		TruthVal: "true",
 	}
 
-	stat_c := Statement{
+	stat_c := puzzles.Statement{
 		Letter:  "C",
 		IsNeg:   false,
 		Subject: "Mrs. Bond",
@@ -50,7 +50,7 @@ func DuckPuzzle(player *mytypes.Player) {
 		TruthVal: "true",
 	}
 
-	stat_d := Statement{
+	stat_d := puzzles.Statement{
 		Letter:   "D",
 		IsNeg:    false,
 		Subject:  "No ducks in this village",
@@ -59,7 +59,7 @@ func DuckPuzzle(player *mytypes.Player) {
 		TruthVal: "unknown",
 	}
 
-	stat_e := Statement{
+	stat_e := puzzles.Statement{
 		Letter:   "E",
 		IsNeg:    false,
 		Subject:  "No gray ducks in this village",
@@ -68,7 +68,7 @@ func DuckPuzzle(player *mytypes.Player) {
 		TruthVal: "unknown",
 	}
 
-	stat_a_c := Statement{
+	stat_a_c := puzzles.Statement{
 		Letter:   "A&C",
 		IsNeg:    false,
 		Subject:  "",
@@ -77,7 +77,7 @@ func DuckPuzzle(player *mytypes.Player) {
 		TruthVal: "unknown",
 		IsHidden: true,
 	}
-	stat_b_d := Statement{
+	stat_b_d := puzzles.Statement{
 		Letter:   "B&D",
 		IsNeg:    false,
 		Subject:  "",
@@ -89,11 +89,11 @@ func DuckPuzzle(player *mytypes.Player) {
 
 	stat_d_copy := stat_d
 	stat_d_copy.Negate()
-	imp_f := ImpFrom("F", "true", &stat_a_c, &stat_d_copy)
-	imp_g := ImpFrom("G", "true", &stat_b_d, &stat_e)
+	imp_f := puzzles.ImpFrom("F", "true", &stat_a_c, &stat_d_copy)
+	imp_g := puzzles.ImpFrom("G", "true", &stat_b_d, &stat_e)
 
-	stats := make(map[string]Statement)
-	imps := make(map[string]Implication)
+	stats := make(map[string]puzzles.Statement)
+	imps := make(map[string]puzzles.Implication)
 
 	stats["A"] = stat_a
 	stats["B"] = stat_b
@@ -107,7 +107,7 @@ func DuckPuzzle(player *mytypes.Player) {
 	imps["F"] = imp_f
 	imps["G"] = imp_g
 
-	puz := Puzzle{
+	puz := puzzles.Puzzle{
 		Stats: stats,
 		Imps:  imps,
 	}
@@ -121,7 +121,7 @@ func DuckPuzzle(player *mytypes.Player) {
 
 	for puz.Stats["E"].TruthVal != "true" {
 		// ^^ for loop contains win condition for puzzle
-		PromptTool(&puz, &backup, player)
+		puzzles.PromptTool(&puz, &backup, player)
 	}
 	// TODO: Add flavor text here
 	myprint.PrintSlow("\t<Say something at the end of the puzzle>")

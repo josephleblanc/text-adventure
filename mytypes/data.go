@@ -8,9 +8,9 @@ type (
 		Name        string
 		Description string
 		is_explored bool
-		items       []Item
-		npcs        []Npc
-		objects     []Object
+		// items       []Item
+		// npcs        []Npc
+		// objects     []Object
 		// keys are directions, e.g. 'east', 'north'
 		GoesTo             map[string]*Room
 		MoveDescription    map[string]string
@@ -18,6 +18,8 @@ type (
 		doors              []Door
 		is_locked          bool
 		locked_description string
+		HasPuzzle          bool
+		PuzzleComplete     bool
 	}
 	Door struct {
 		is_open bool

@@ -46,3 +46,30 @@ func (m *Map) CurrentRoom(p *Player) {
 		myprint.PrintSlow(to_print)
 	}
 }
+
+func (m *Map) IsPuzzleComplete(p *Player) bool {
+	room, exists := m.rooms[p.InRoom]
+	if exists {
+		return room.PuzzleComplete
+	} else {
+		return false
+	}
+}
+
+func (m *Map) CompletePuzzle(p *Player) {
+	old_room, exists := m.rooms[p.InRoom]
+	if exists {
+		new_room := old_room
+		new_room.PuzzleComplete = true
+		m.rooms[p.InRoom] = new_room
+	}
+}
+
+func (m *Map) PlayerRoom(p *Player) (bool, string) {
+	room, exists := m.rooms[p.InRoom]
+	if exists {
+		return true, room.Name
+	} else {
+		return false, ""
+	}
+}
