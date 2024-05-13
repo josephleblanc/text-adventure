@@ -6,29 +6,15 @@ Bug List
 3. The puzzles do not print their status in the same order every time.
   Fix: Sort the output of the strings in puzzle status before printing.
 
-Duck Puzzle:
-
-// 15.
+Tapestry Puzzle
+// 19.
 //
-//	(1) All ducks in this village, that are branded ‘B,’ belong to Mrs. Bond;
-//	(2) Ducks in this village never wear lace collars, unless they are branded ‘B’;
-//	(3) Mrs. Bond has no gray ducks in this village.
+//	(1) No name in this list is unsuitable for the hero of a romance;
+//	(2) Names beginning with a vowel are always melodious;
+//	(3) No name is suitable for the hero of a romance, if it begins with a consonant.
 //
-// Univ. “ducks in this village”; 
-a = belonging to Mrs. Bond; 
-b = branded ‘B’; 
-c = gray; 
-d = wearing lace-collars.
-
-Worked Solution:
-complement(b, !a) :
-  and complement b !d 
-  and not(ca)
-
-complement(b, a): ducks that are not branded with a b and do not belong to mrs. bond
-  and ducks not branded with a b and wearing lace collars 
-  and gray and belonging to mrs. Bond
-    therefore: no gray ducks in this village wear lace collars.
+// Univ. “names”; a = beginning with a vowel; b = in this list; c = melodious; d = suitable for the hero of a romance.
 //
 // Solution:
-// No gray ducks in this village wear lace collars. 
+//
+//	No name in this list is unmelodious.
