@@ -6,15 +6,38 @@ Bug List
 3. The puzzles do not print their status in the same order every time.
   Fix: Sort the output of the strings in puzzle status before printing.
 
-Tapestry Puzzle
-// 19.
+Final puzzle
+
+// 46.
 //
-//	(1) No name in this list is unsuitable for the hero of a romance;
-//	(2) Names beginning with a vowel are always melodious;
-//	(3) No name is suitable for the hero of a romance, if it begins with a consonant.
+//	(1) When I work a Logic-example without grumbling, you may be sure it is one that I can understand;
+//	(2) These Soriteses are not arranged in regular order, like the examples I am used to;
+//	(3) No easy example ever made my head ache;
+//	(4) I ca’n’t understand examples that are not arranged in regular order, like those I am used to;
+//	(5) I never grumble at an example, unless it gives me a headache.
 //
-// Univ. “names”; a = beginning with a vowel; b = in this list; c = melodious; d = suitable for the hero of a romance.
-//
+Univ. “Logic-examples worked by me”; 
+  a = arranged in regular order, like the examples I am used to; 
+  b = easy; 
+  c = grumbled at by me; 
+  d = making my head ache; 
+  e = these Soriteses; 
+  h = understood by me.
+
 // Solution:
 //
-//	No name in this list is unmelodious.
+//	These Sorites-examples are difficult.
+Worked Solution:
+
+
+//	(A) When I work a logic puzzle without grumbling, you may be sure it is one that I can understand;
+//	(B) These logic puzzles are not arranged in regular order, like the examples I am used to;
+//	(C) No easy logic puzzle ever made my head ache;
+//	(D) I can’t understand logic puzzles that are not arranged in regular order, like those I am used to;
+//	(E) I never grumble at a logic statement, unless it gives me a headache.
+
+B&D -> !G: I cannot understand this puzzle.
+
+// F: I am grumbling
+// G: It is a logic puzzle I understand
+H: (!F -> G)

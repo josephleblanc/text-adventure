@@ -205,9 +205,9 @@ func (i *Implication) Truth() *string {
 
 func ImpFrom(letter string, truth_val string, ant *Statement, con *Statement) Implication {
 	ant_copy := *ant
-	ant_copy.TruthVal = "empty"
+	// ant_copy.TruthVal = "empty"
 	con_copy := *con
-	con_copy.TruthVal = "empty"
+	// con_copy.TruthVal = "empty"
 	return Implication{
 		Letter:   letter,
 		TruthVal: truth_val,
