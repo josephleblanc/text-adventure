@@ -86,4 +86,12 @@ func main() {
 			world_map.CompletePuzzle(&player)
 		}
 	}
+
+	myprint.PrintSlow("\tAs you solve the final puzzle, a sense of clarity washes over you, dissolving the confusion and uncertainty that plagued your journey. With a deep breath, you emerge from the depths of the enigmatic room and find yourself back at your desk, the familiar surroundings grounding you in reality.")
+	myprint.PrintSlow("\tAs you sit there, reflecting on the strange dream you just experienced, a subtle message catches your eye. A piece of parchment lies on the desk, bearing the unmistakable script of Aristotle himself. The message is cryptic, hinting at deeper meanings and hidden truths, leaving you to ponder whether the dream was merely a product of your imagination or a glimpse into a realm beyond comprehension. ")
+	myprint.PrintSlow("\tWith a sense of wonder and curiosity, you realize that the journey may have ended, but the mysteries of the Land of Rationality continue to linger in your mind. As you return to your daily life, Aristotle's final message serves as a reminder that the boundaries between reality and illusion are often more blurred than they seem.")
+	utils.Ellipsis()
+	myprint.PrintSlow("\tThank you for playing this logic game!")
+	utils.Ellipsis()
+	myprint.PrintSlow("\tMade by Brasides")
 }

@@ -213,8 +213,7 @@ func FinalPuzzle(player *mytypes.Player) {
 
 	puz.Status()
 
-	// TODO: put flavor text here
-	myprint.PrintSlow("Flavor message about starting the puzzle")
+	myprint.PrintSlow("Prove that this is not an easy puzzle to complete your adventure in the dream!")
 	for puz.Stats["I"].TruthVal != "true" {
 		// ^^ for loop contains win condition for puzzle
 		puzzles.PromptTool(&puz, &backup, player)

@@ -115,12 +115,14 @@ func DuckPuzzle(player *mytypes.Player) {
 
 	puz.Status()
 
+	myprint.PrintSlow("Find the truth of all statements to solve the puzzle!")
 	for puz.Stats["E"].TruthVal != "true" {
 		// ^^ for loop contains win condition for puzzle
 		puzzles.PromptTool(&puz, &backup, player)
 	}
 	// TODO: Add flavor text here
-	myprint.PrintSlow("As the final logical deduction falls into place, a faint shimmer dances across the parchment, drawing your attention. With a soft rustle, the parchment begins to unfurl, revealing a glint of metal nestled within its folds. As you reach out to investigate, your fingers brush against a small, intricately crafted key, its surface adorned with ornate patterns that seem to dance in the light. The key feels weighty in your palm, its significance tangible as you realize its potential to unlock new pathways and hidden secrets within the realm of the Land of Rationality. With a sense of triumph and anticipation, you pocket the key, knowing that it will serve as a tangible symbol of your triumph over the puzzles that once confounded you.")
+	myprint.PrintSlow("As the final logical deduction falls into place, a faint shimmer dances across the parchment, drawing your attention. With a soft rustle, the parchment begins to unfurl, revealing a glint of metal nestled within its folds. As you reach out to investigate, your fingers brush against a small, intricately crafted key, its surface adorned with ornate patterns that seem to dance in the light.")
+	myprint.PrintSlow("The key feels weighty in your palm, its significance tangible as you realize its potential to unlock new pathways and hidden secrets within the realm of the Land of Rationality. With a sense of triumph and anticipation, you pocket the key, knowing that it will serve as a tangible symbol of your triumph over the puzzles that once confounded you.")
 	myprint.PrintSlow("You now have the key from this room, and are one step closer to unlocking the final door.")
 	myprint.PrintSlow("\tHaving solved the puzzle, you are free to \"look\" around the room or \"go\" in a direction.")
 }

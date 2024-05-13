@@ -2,7 +2,7 @@ package rooms
 
 import (
 	// "text-adventure/myprint"
-	"fmt"
+
 	"text-adventure/myprint"
 	"text-adventure/mytypes"
 	"text-adventure/puzzles"
@@ -104,9 +104,9 @@ func TapestryPuzzle(player *mytypes.Player) {
 	stats["C"] = stat_c
 	stats["D"] = stat_d
 	stats["E"] = stat_e
-
-	stats["A&C"] = stat_d
-	stats["D&E"] = stat_e
+	//
+	// stats["A&C"] = stat_d
+	// stats["D&E"] = stat_e
 
 	imps["F"] = imp_f
 	imps["G"] = imp_g
@@ -117,18 +117,15 @@ func TapestryPuzzle(player *mytypes.Player) {
 	}
 	backup := puz
 
-	fmt.Println(stat_a.ToString())
-	fmt.Println(stat_b.ToString())
-	fmt.Println(stat_c.ToString())
-	fmt.Println(stat_d.ToString())
-	fmt.Println(stat_e.ToString())
+	puz.Status()
 
 	// TODO: put flavor text here
-	myprint.PrintSlow("Flavor message about starting the puzzle")
+	myprint.PrintSlow("Find the truth of all statements to solve the puzzle!")
 	for puz.Stats["E"].TruthVal != "true" {
 		// ^^ for loop contains win condition for puzzle
 		puzzles.PromptTool(&puz, &backup, player)
 	}
 	// TODO: Add flavor text here
-	myprint.PrintSlow("\t<Say something at the end of the puzzle>")
+	myprint.PrintSlow("\tAs the puzzle is solved, a key materializes amidst the echoes in the room. It glows softly, its intricate design shimmering with significance. With a sense of triumph, you reach out and grasp it, feeling empowered to unlock new paths in the Land of Rationality.")
+	myprint.PrintSlow("\tYou have taken one more step on the path to unlocking the final door... who knows what lays beyond?")
 }
