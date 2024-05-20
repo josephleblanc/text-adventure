@@ -1,4 +1,4 @@
-# text-adventure
+# Asleep at the Terminal
 A text adventure written for CSCI-20 at Butte College
 
 ## Description
