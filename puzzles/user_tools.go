@@ -102,7 +102,7 @@ func PromptTool(puz *Puzzle, backup *Puzzle, player *mytypes.Player) {
 			fmt.Println(v)
 		}
 		// check for contrapositive command
-	} else if len(split) == 2 && (split[0] == "cp" || split[1] == "contrapositive") {
+	} else if len(split) == 2 && (split[0] == "cp" || split[0] == "contrapositive" || split[0] == "contra") {
 		vals := HandleContraPositive(puz, split[1])
 		for _, v := range vals {
 			fmt.Println(v)
@@ -191,6 +191,9 @@ func CheckDetails(scanner *bufio.Scanner) {
 				utils.CenterText("Negation")
 				fmt.Println("Negation may be used by entering \"neg\" or \"negation\" followed by a letter indicating a statement. Then statement will be made false and the claim inverted.\nFor example:")
 				fmt.Println(negation_example + "\n")
+			case "and", "&":
+				utils.CenterText("\"and\" statements")
+				fmt.Println("\"and\" statements may be used by entering \"and\" followed by two letters indicating a statement. Then a new statement will be inserted added, which is the logical intersection of A and B. For example:")
 				// more cases here
 			}
 		}
@@ -205,7 +208,7 @@ func HandleModusPonens(puz *Puzzle, input_stat string, input_imp string) []strin
 	stat_b := imp.Con
 	_, ok_stat_b := puz.Stats[stat_b.Letter]
 
-	fmt.Println(ok_stat_a, ok_imp, ok_stat_b)
+	// fmt.Println(ok_stat_a, ok_imp, ok_stat_b)
 	if ok_stat_a && ok_imp && ok_stat_b {
 		// Apply modus ponens rule
 		is_applied := ModusPonens(&stat_a, &stat_b, &imp)

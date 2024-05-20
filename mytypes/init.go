@@ -97,6 +97,8 @@ func InitMap() Map {
 
 	start_room.GoesTo["north"] = &crossroad
 
+	boss_room.GoesTo["south"] = &crossroad
+
 	new_map := map[string]Room{
 		"Start":      start_room,
 		"Crossroads": crossroad,

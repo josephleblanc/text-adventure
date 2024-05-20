@@ -110,7 +110,7 @@ func (p *Puzzle) Status() {
 	}
 	sort.Strings(stat_letters)
 	for _, sorted_letter := range stat_letters {
-		fmt.Println(p.Stats[sorted_letter].IsHidden)
+		// fmt.Println(p.Stats[sorted_letter].IsHidden)
 		// if !p.Stats[sorted_letter].IsHidden {
 		fmt.Println(p.Stats[sorted_letter].ToString())
 		// }
@@ -258,7 +258,7 @@ func (i Implication) ToString() string {
 // Applies the modus ponens transformation to an implication, if the antecedent
 // has a known truth value.
 func ModusPonens(stat_a *Statement, stat_b *Statement, imp *Implication) bool {
-	fmt.Println("stat_a.TruthVal:", stat_a.TruthVal, "-- stat_b.TruthVal:", stat_b.TruthVal)
+	// fmt.Println("stat_a.TruthVal:", stat_a.TruthVal, "-- stat_b.TruthVal:", stat_b.TruthVal)
 	if stat_a.TruthVal == "true" || stat_a.TruthVal == "false" {
 		// fmt.Println(imp)
 		// fmt.Println(ImpFrom(imp.Letter, imp.TruthVal, stat_a, stat_b))

@@ -9,13 +9,12 @@ import (
 	"text-adventure/utils"
 )
 
-// "golang.org/x/term"
-
 func main() {
-	all_inputs := utils.InitUserInput()
 	// Input maps for handling user input such as name
-	input_map := utils.MapUserInput(all_inputs)
+	all_inputs := utils.InitUserInput()
 	// Load text for dialogue and descriptions from file
+	input_map := utils.MapUserInput(all_inputs)
+	// Dialogue text stored in local file
 	text_map := utils.CsvToTextList("text/intro.csv")
 	// Player data that will change as the player gains access to the tools of logic
 	player := mytypes.Player{
@@ -50,7 +49,6 @@ func main() {
 	// Tutorial: modus ponens
 	puzzles.ModusPonensTutorial(&player)
 	myprint.PrintSlow("\tAristotle: Well done! I apologize if this is the first time you were made aware of this, but as a man/woman you are indeed mortal. This demonstrates the power and peril of symbolic logic - it allows us to arrive at new and sometimes uncomfortable truths.")
-	// TODO: Add a way for the user to check which logic tools they have access to, along with their descriptions.
 	utils.CenterText("<Type \"help\" or \"h\" at any time to review details on logic tools.>")
 	fmt.Println()
 
@@ -64,9 +62,9 @@ func main() {
 	myprint.PrintSlow("\tAristotle: Well done!")
 	fmt.Println()
 	// Conclude Aristotle scene
-	// TODO: Add win condition in the dialogue below:
 	myprint.PrintSlow("\tAristotle: Now that you have your logic tools, I can go back to thinking and leave all the work to you, my dear student. You may \"go\" wherever you wish in the four cardinal directions (north, west, south, east), just be sure to \"look\" and see if there is a passage there. Now, go clear the conundrums, and once you complete the puzzle beyond the locked door in the next room, you will be returned to your waking world.")
 
+	// Main game loop
 	final_complete := false
 	for !final_complete {
 		utils.PromptNav(&player, &world_map)
@@ -86,6 +84,7 @@ func main() {
 		}
 	}
 
+	// Wrap up game and run credits
 	myprint.PrintSlow("\tAs you solve the final puzzle, a sense of clarity washes over you, dissolving the confusion and uncertainty that plagued your journey. With a deep breath, you emerge from the depths of the enigmatic room and find yourself back at your desk, the familiar surroundings grounding you in reality.")
 	myprint.PrintSlow("\tAs you sit there, reflecting on the strange dream you just experienced, a subtle message catches your eye. A piece of parchment lies on the desk, bearing the unmistakable script of Aristotle himself. The message is cryptic, hinting at deeper meanings and hidden truths, leaving you to ponder whether the dream was merely a product of your imagination or a glimpse into a realm beyond comprehension. ")
 	myprint.PrintSlow("\tWith a sense of wonder and curiosity, you realize that the journey may have ended, but the mysteries of the Land of Rationality continue to linger in your mind. As you return to your daily life, Aristotle's final message serves as a reminder that the boundaries between reality and illusion are often more blurred than they seem.")
